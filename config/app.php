@@ -219,8 +219,8 @@ return [
      */
     'Datasources' => [
         'default' => [
-            'className' => 'Cake\Database\Connection',
-            'driver' => 'Cake\Database\Driver\Mysql',
+            'className' => 'vendor\cakephp\cakephp\src\Database\Connection',
+            'driver' => 'vendor\cakephp\cakephp\src\Database\Driver\Mysql',
             'persistent' => false,
             'host' => getenv(strtoupper(getenv("DATABASE_SERVICE_NAME"))."_SERVICE_HOST"),
             /**
