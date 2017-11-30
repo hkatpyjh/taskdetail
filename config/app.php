@@ -231,7 +231,7 @@ return [
             //'port' => '3306',
             'username' => 'taskdetail',
             'password' => 'WJQ3PlYPxTAsrD6t',
-            'database' => 'task',
+            'database' => 'taskdetail',
             'encoding' => 'utf8',
             'timezone' => 'UTC',
             'flags' => [],
