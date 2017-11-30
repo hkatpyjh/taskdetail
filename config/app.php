@@ -228,7 +228,7 @@ return [
              * MySQL on MAMP uses port 8889, MAMP users will want to uncomment
              * the following line and set the port accordingly
              */
-            'port' => getenv(strtoupper(getenv("DATABASE_SERVICE_NAME"))."_SERVICE_PORT"),
+            //'port' => 'non_standard_port_number',
             'username' => getenv("DATABASE_USER"),
             'password' => getenv("DATABASE_PASSWORD"),
             'database' => getenv("DATABASE_NAME"),
