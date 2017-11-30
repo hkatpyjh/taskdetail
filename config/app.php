@@ -222,15 +222,15 @@ return [
             'className' => 'Cake\Database\Connection',
             'driver' => 'Cake\Database\Driver\Mysql',
             'persistent' => false,
-            'host' => 'mysql',
+            'host' => getenv('OPENSHIFT_MYSQL_DB_HOST'),
             /**
              * CakePHP will use the default DB port based on the driver selected
              * MySQL on MAMP uses port 8889, MAMP users will want to uncomment
              * the following line and set the port accordingly
              */
-            'port' => '3306',
-            'username' => 'userPAU',
-            'password' => 'L6IvV4yfu4icyQSO',
+            'port' => getenv('OPENSHIFT_MYSQL_DB_PORT'),
+            'username' => getenv('OPENSHIFT_MYSQL_DB_USERNAME'),
+            'password' => getenv('OPENSHIFT_MYSQL_DB_PASSWORD'),
             'database' => 'taskdetail',
             'encoding' => 'utf8',
             'timezone' => 'UTC',
