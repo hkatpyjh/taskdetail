@@ -220,7 +220,7 @@ return [
     'Datasources' => [
         'default' => [
             'className' => 'Cake\Database\Connection',
-            'driver' => 'Database/'.ucfirst(getenv('DATABASE_ENGINE')),
+            'driver' => 'Cake\Database\Driver\Mysql',
             'persistent' => false,
             'host' => getenv(strtoupper(getenv("DATABASE_SERVICE_NAME"))."_SERVICE_HOST"),
             /**
