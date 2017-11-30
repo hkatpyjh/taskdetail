@@ -228,7 +228,7 @@ return [
              * MySQL on MAMP uses port 8889, MAMP users will want to uncomment
              * the following line and set the port accordingly
              */
-            'port' => '3306',
+            //'port' => '3306',
             'username' => getenv("MYSQL_USER"),
             'password' => getenv("MYSQL_PASSWORD"),
             'database' => getenv("MYSQL_DATABASE"),
