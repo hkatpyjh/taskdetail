@@ -1,0 +1,66 @@
+2017-12-01 05:30:21 Error: [RuntimeException] Unknown command `cake schema`. Run `cake --help` to get the list of valid commands. in C:\cakephp\vendor\cakephp\cakephp\src\Console\CommandRunner.php on line 177
+Stack Trace:
+#0 C:\cakephp\vendor\cakephp\cakephp\src\Console\CommandRunner.php(137): Cake\Console\CommandRunner->getShell(Object(Cake\Console\ConsoleIo), Object(Cake\Console\CommandCollection), 'schema')
+#1 C:\cakephp\bin\cake.php(12): Cake\Console\CommandRunner->run(Array)
+#2 {main}
+
+
+2017-12-01 05:31:45 Error: [RuntimeException] Unknown command `cake schema`. Run `cake --help` to get the list of valid commands. in C:\cakephp\vendor\cakephp\cakephp\src\Console\CommandRunner.php on line 177
+Stack Trace:
+#0 C:\cakephp\vendor\cakephp\cakephp\src\Console\CommandRunner.php(137): Cake\Console\CommandRunner->getShell(Object(Cake\Console\ConsoleIo), Object(Cake\Console\CommandCollection), 'schema')
+#1 C:\cakephp\bin\cake.php(12): Cake\Console\CommandRunner->run(Array)
+#2 {main}
+
+
+2017-12-01 05:32:24 Error: [Cake\Database\Exception\MissingExtensionException] Database driver Cake\Database\Driver\Mysql cannot be used due to a missing PHP extension or unmet dependency in C:\cakephp\vendor\cakephp\cakephp\src\Database\Connection.php on line 176
+Exception Attributes: array (
+  'driver' => 'Cake\\Database\\Driver\\Mysql',
+)
+Stack Trace:
+#0 C:\cakephp\vendor\cakephp\cakephp\src\Database\Connection.php(117): Cake\Database\Connection->setDriver(Object(Cake\Database\Driver\Mysql), Array)
+#1 C:\cakephp\vendor\cakephp\cakephp\src\Datasource\ConnectionRegistry.php(89): Cake\Database\Connection->__construct(Array)
+#2 C:\cakephp\vendor\cakephp\cakephp\src\Core\ObjectRegistry.php(96): Cake\Datasource\ConnectionRegistry->_create('Cake\\Database\\C...', 'default', Array)
+#3 C:\cakephp\vendor\cakephp\cakephp\src\Datasource\ConnectionManager.php(205): Cake\Core\ObjectRegistry->load('Cake\\Database\\C...', Array)
+#4 C:\cakephp\vendor\cakephp\migrations\src\Command\CommandTrait.php(68): Cake\Datasource\ConnectionManager::get('default')
+#5 C:\cakephp\vendor\robmorgan\phinx\src\Phinx\Console\Command\Migrate.php(72): Migrations\Command\Migrate->bootstrap(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#6 C:\cakephp\vendor\cakephp\migrations\src\Command\CommandTrait.php(35): Phinx\Console\Command\Migrate->execute(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#7 C:\cakephp\vendor\cakephp\migrations\src\Command\Migrate.php(65): Migrations\Command\Migrate->parentExecute(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#8 C:\cakephp\vendor\symfony\console\Command\Command.php(240): Migrations\Command\Migrate->execute(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#9 C:\cakephp\vendor\symfony\console\Application.php(858): Symfony\Component\Console\Command\Command->run(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#10 C:\cakephp\vendor\symfony\console\Application.php(216): Symfony\Component\Console\Application->doRunCommand(Object(Migrations\Command\Migrate), Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#11 C:\cakephp\vendor\symfony\console\Application.php(122): Symfony\Component\Console\Application->doRun(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#12 C:\cakephp\vendor\cakephp\migrations\src\Shell\MigrationsShell.php(101): Symfony\Component\Console\Application->run(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#13 C:\cakephp\vendor\cakephp\cakephp\src\Console\Shell.php(507): Migrations\Shell\MigrationsShell->main('migrations', 'migrate')
+#14 C:\cakephp\vendor\cakephp\migrations\src\Shell\MigrationsShell.php(156): Cake\Console\Shell->runCommand(Array, true, Array)
+#15 C:\cakephp\vendor\cakephp\cakephp\src\Console\CommandRunner.php(141): Migrations\Shell\MigrationsShell->runCommand(Array, true)
+#16 C:\cakephp\bin\cake.php(12): Cake\Console\CommandRunner->run(Array)
+#17 {main}
+
+
+2017-12-01 05:39:20 Error: [Symfony\Component\Console\Exception\CommandNotFoundException] Command "rollbake" is not defined.
+
+Did you mean this?
+    rollback in C:\cakephp\vendor\symfony\console\Application.php on line 576
+Stack Trace:
+#0 C:\cakephp\vendor\symfony\console\Application.php(197): Symfony\Component\Console\Application->find('rollbake')
+#1 C:\cakephp\vendor\symfony\console\Application.php(122): Symfony\Component\Console\Application->doRun(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#2 C:\cakephp\vendor\cakephp\migrations\src\Shell\MigrationsShell.php(101): Symfony\Component\Console\Application->run(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#3 C:\cakephp\vendor\cakephp\cakephp\src\Console\Shell.php(507): Migrations\Shell\MigrationsShell->main('migrations', 'rollbake')
+#4 C:\cakephp\vendor\cakephp\migrations\src\Shell\MigrationsShell.php(156): Cake\Console\Shell->runCommand(Array, true, Array)
+#5 C:\cakephp\vendor\cakephp\cakephp\src\Console\CommandRunner.php(141): Migrations\Shell\MigrationsShell->runCommand(Array, true)
+#6 C:\cakephp\bin\cake.php(12): Cake\Console\CommandRunner->run(Array)
+#7 {main}
+
+
+2017-12-01 05:45:27 Error: [Symfony\Component\Console\Exception\CommandNotFoundException] Command "generate" is not defined. in C:\cakephp\vendor\symfony\console\Application.php on line 576
+Stack Trace:
+#0 C:\cakephp\vendor\symfony\console\Application.php(197): Symfony\Component\Console\Application->find('generate')
+#1 C:\cakephp\vendor\symfony\console\Application.php(122): Symfony\Component\Console\Application->doRun(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#2 C:\cakephp\vendor\cakephp\migrations\src\Shell\MigrationsShell.php(101): Symfony\Component\Console\Application->run(Object(Symfony\Component\Console\Input\ArgvInput), Object(Symfony\Component\Console\Output\ConsoleOutput))
+#3 C:\cakephp\vendor\cakephp\cakephp\src\Console\Shell.php(507): Migrations\Shell\MigrationsShell->main('migrations', 'generate')
+#4 C:\cakephp\vendor\cakephp\migrations\src\Shell\MigrationsShell.php(156): Cake\Console\Shell->runCommand(Array, true, Array)
+#5 C:\cakephp\vendor\cakephp\cakephp\src\Console\CommandRunner.php(141): Migrations\Shell\MigrationsShell->runCommand(Array, true)
+#6 C:\cakephp\bin\cake.php(12): Cake\Console\CommandRunner->run(Array)
+#7 {main}
+
+
