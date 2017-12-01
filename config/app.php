@@ -222,7 +222,7 @@ return [
             'className' => 'Cake\Database\Connection',
             'driver' => 'Cake\Database\Driver\Mysql',
             'persistent' => false,
-            'host' => '172.30.70.237',
+            'host' => getenv("MYSQL_HOST"),
             /**
              * CakePHP will use the default DB port based on the driver selected
              * MySQL on MAMP uses port 8889, MAMP users will want to uncomment
@@ -270,7 +270,7 @@ return [
             'host' => getenv("MYSQL_HOST"),
             //'port' => 'non_standard_port_number',
             'username' => getenv("MYSQL_USER"),
-            'password' => getenv("MYSQL_PWD"),
+            'password' => getenv("MYSQL_PASSWORD"),
             'database' => getenv("MYSQL_DATABASE"),
             'encoding' => 'utf8',
             'timezone' => 'UTC',
