@@ -64,3 +64,117 @@ Stack Trace:
 #7 {main}
 
 
+2017-12-01 06:08:19 Error: [Cake\Database\Exception\MissingExtensionException] Database driver Cake\Database\Driver\Mysql cannot be used due to a missing PHP extension or unmet dependency in C:\cakephp\vendor\cakephp\cakephp\src\Database\Connection.php on line 176
+Exception Attributes: array (
+  'driver' => 'Cake\\Database\\Driver\\Mysql',
+)
+Stack Trace:
+#0 C:\cakephp\vendor\cakephp\cakephp\src\Database\Connection.php(117): Cake\Database\Connection->setDriver(Object(Cake\Database\Driver\Mysql), Array)
+#1 C:\cakephp\vendor\cakephp\cakephp\src\Datasource\ConnectionRegistry.php(89): Cake\Database\Connection->__construct(Array)
+#2 C:\cakephp\vendor\cakephp\cakephp\src\Core\ObjectRegistry.php(96): Cake\Datasource\ConnectionRegistry->_create('Cake\\Database\\C...', 'default', Array)
+#3 C:\cakephp\vendor\cakephp\cakephp\src\Datasource\ConnectionManager.php(205): Cake\Core\ObjectRegistry->load('Cake\\Database\\C...', Array)
+#4 C:\cakephp\vendor\cakephp\bake\src\Shell\Task\ModelTask.php(195): Cake\Datasource\ConnectionManager::get('default')
+#5 C:\cakephp\vendor\cakephp\bake\src\Shell\Task\ModelTask.php(112): Bake\Shell\Task\ModelTask->getTableObject('Articles', 'articles')
+#6 C:\cakephp\vendor\cakephp\bake\src\Shell\Task\ModelTask.php(100): Bake\Shell\Task\ModelTask->bake('Articles')
+#7 C:\cakephp\vendor\cakephp\cakephp\src\Console\Shell.php(507): Bake\Shell\Task\ModelTask->main('Articles')
+#8 C:\cakephp\vendor\cakephp\cakephp\src\Console\Shell.php(500): Cake\Console\Shell->runCommand(Array, false, Array)
+#9 C:\cakephp\vendor\cakephp\cakephp\src\Console\CommandRunner.php(141): Cake\Console\Shell->runCommand(Array, true)
+#10 C:\cakephp\bin\cake.php(12): Cake\Console\CommandRunner->run(Array)
+#11 {main}
+
+
+2017-12-01 06:56:14 Error: [Cake\Database\Exception\MissingExtensionException] Database driver Cake\Database\Driver\Mysql cannot be used due to a missing PHP extension or unmet dependency in C:\cakephp\vendor\cakephp\cakephp\src\Database\Connection.php on line 176
+Exception Attributes: array (
+  'driver' => 'Cake\\Database\\Driver\\Mysql',
+)
+Stack Trace:
+#0 C:\cakephp\vendor\cakephp\cakephp\src\Database\Connection.php(117): Cake\Database\Connection->setDriver(Object(Cake\Database\Driver\Mysql), Array)
+#1 C:\cakephp\vendor\cakephp\cakephp\src\Datasource\ConnectionRegistry.php(89): Cake\Database\Connection->__construct(Array)
+#2 C:\cakephp\vendor\cakephp\cakephp\src\Core\ObjectRegistry.php(96): Cake\Datasource\ConnectionRegistry->_create('Cake\\Database\\C...', 'default', Array)
+#3 C:\cakephp\vendor\cakephp\cakephp\src\Datasource\ConnectionManager.php(205): Cake\Core\ObjectRegistry->load('Cake\\Database\\C...', Array)
+#4 C:\cakephp\vendor\cakephp\bake\src\Shell\Task\ModelTask.php(195): Cake\Datasource\ConnectionManager::get('default')
+#5 C:\cakephp\vendor\cakephp\bake\src\Shell\Task\ModelTask.php(112): Bake\Shell\Task\ModelTask->getTableObject('Articles', 'articles')
+#6 C:\cakephp\vendor\cakephp\bake\src\Shell\Task\ModelTask.php(100): Bake\Shell\Task\ModelTask->bake('Articles')
+#7 C:\cakephp\vendor\cakephp\cakephp\src\Console\Shell.php(507): Bake\Shell\Task\ModelTask->main('Articles')
+#8 C:\cakephp\vendor\cakephp\cakephp\src\Console\Shell.php(500): Cake\Console\Shell->runCommand(Array, false, Array)
+#9 C:\cakephp\vendor\cakephp\cakephp\src\Console\CommandRunner.php(141): Cake\Console\Shell->runCommand(Array, true)
+#10 C:\cakephp\bin\cake.php(12): Cake\Console\CommandRunner->run(Array)
+#11 {main}
+
+
+2017-12-01 06:57:42 Error: [Cake\Database\Exception\MissingExtensionException] Database driver Cake\Database\Driver\Mysql cannot be used due to a missing PHP extension or unmet dependency in C:\cakephp\vendor\cakephp\cakephp\src\Database\Connection.php on line 176
+Exception Attributes: array (
+  'driver' => 'Cake\\Database\\Driver\\Mysql',
+)
+Stack Trace:
+#0 C:\cakephp\vendor\cakephp\cakephp\src\Database\Connection.php(117): Cake\Database\Connection->setDriver(Object(Cake\Database\Driver\Mysql), Array)
+#1 C:\cakephp\vendor\cakephp\cakephp\src\Datasource\ConnectionRegistry.php(89): Cake\Database\Connection->__construct(Array)
+#2 C:\cakephp\vendor\cakephp\cakephp\src\Core\ObjectRegistry.php(96): Cake\Datasource\ConnectionRegistry->_create('Cake\\Database\\C...', 'default', Array)
+#3 C:\cakephp\vendor\cakephp\cakephp\src\Datasource\ConnectionManager.php(205): Cake\Core\ObjectRegistry->load('Cake\\Database\\C...', Array)
+#4 C:\cakephp\vendor\cakephp\bake\src\Shell\Task\ModelTask.php(195): Cake\Datasource\ConnectionManager::get('default')
+#5 C:\cakephp\vendor\cakephp\bake\src\Shell\Task\ModelTask.php(112): Bake\Shell\Task\ModelTask->getTableObject('Articles', 'articles')
+#6 C:\cakephp\vendor\cakephp\bake\src\Shell\Task\ModelTask.php(100): Bake\Shell\Task\ModelTask->bake('Articles')
+#7 C:\cakephp\vendor\cakephp\cakephp\src\Console\Shell.php(507): Bake\Shell\Task\ModelTask->main('Articles')
+#8 C:\cakephp\vendor\cakephp\cakephp\src\Console\Shell.php(500): Cake\Console\Shell->runCommand(Array, false, Array)
+#9 C:\cakephp\vendor\cakephp\cakephp\src\Console\CommandRunner.php(141): Cake\Console\Shell->runCommand(Array, true)
+#10 C:\cakephp\bin\cake.php(12): Cake\Console\CommandRunner->run(Array)
+#11 {main}
+
+
+2017-12-01 07:32:27 Error: [Cake\Database\Exception\MissingExtensionException] Database driver Cake\Database\Driver\Mysql cannot be used due to a missing PHP extension or unmet dependency in C:\cakephp\vendor\cakephp\cakephp\src\Database\Connection.php on line 176
+Exception Attributes: array (
+  'driver' => 'Cake\\Database\\Driver\\Mysql',
+)
+Stack Trace:
+#0 C:\cakephp\vendor\cakephp\cakephp\src\Database\Connection.php(117): Cake\Database\Connection->setDriver(Object(Cake\Database\Driver\Mysql), Array)
+#1 C:\cakephp\vendor\cakephp\cakephp\src\Datasource\ConnectionRegistry.php(89): Cake\Database\Connection->__construct(Array)
+#2 C:\cakephp\vendor\cakephp\cakephp\src\Core\ObjectRegistry.php(96): Cake\Datasource\ConnectionRegistry->_create('Cake\\Database\\C...', 'default', Array)
+#3 C:\cakephp\vendor\cakephp\cakephp\src\Datasource\ConnectionManager.php(205): Cake\Core\ObjectRegistry->load('Cake\\Database\\C...', Array)
+#4 C:\cakephp\vendor\cakephp\bake\src\Shell\Task\ModelTask.php(195): Cake\Datasource\ConnectionManager::get('default')
+#5 C:\cakephp\vendor\cakephp\bake\src\Shell\Task\ModelTask.php(112): Bake\Shell\Task\ModelTask->getTableObject('Articles', 'articles')
+#6 C:\cakephp\vendor\cakephp\bake\src\Shell\Task\ModelTask.php(100): Bake\Shell\Task\ModelTask->bake('Articles')
+#7 C:\cakephp\vendor\cakephp\cakephp\src\Console\Shell.php(507): Bake\Shell\Task\ModelTask->main('Articles')
+#8 C:\cakephp\vendor\cakephp\cakephp\src\Console\Shell.php(500): Cake\Console\Shell->runCommand(Array, false, Array)
+#9 C:\cakephp\vendor\cakephp\cakephp\src\Console\CommandRunner.php(141): Cake\Console\Shell->runCommand(Array, true)
+#10 C:\cakephp\bin\cake.php(12): Cake\Console\CommandRunner->run(Array)
+#11 {main}
+
+
+2017-12-01 08:02:13 Error: [Cake\Database\Exception\MissingExtensionException] Database driver Cake\Database\Driver\Mysql cannot be used due to a missing PHP extension or unmet dependency in C:\cakephp\vendor\cakephp\cakephp\src\Database\Connection.php on line 176
+Exception Attributes: array (
+  'driver' => 'Cake\\Database\\Driver\\Mysql',
+)
+Stack Trace:
+#0 C:\cakephp\vendor\cakephp\cakephp\src\Database\Connection.php(117): Cake\Database\Connection->setDriver(Object(Cake\Database\Driver\Mysql), Array)
+#1 C:\cakephp\vendor\cakephp\cakephp\src\Datasource\ConnectionRegistry.php(89): Cake\Database\Connection->__construct(Array)
+#2 C:\cakephp\vendor\cakephp\cakephp\src\Core\ObjectRegistry.php(96): Cake\Datasource\ConnectionRegistry->_create('Cake\\Database\\C...', 'default', Array)
+#3 C:\cakephp\vendor\cakephp\cakephp\src\Datasource\ConnectionManager.php(205): Cake\Core\ObjectRegistry->load('Cake\\Database\\C...', Array)
+#4 C:\cakephp\vendor\cakephp\bake\src\Shell\Task\ModelTask.php(195): Cake\Datasource\ConnectionManager::get('default')
+#5 C:\cakephp\vendor\cakephp\bake\src\Shell\Task\ModelTask.php(112): Bake\Shell\Task\ModelTask->getTableObject('Articles', 'articles')
+#6 C:\cakephp\vendor\cakephp\bake\src\Shell\Task\ModelTask.php(100): Bake\Shell\Task\ModelTask->bake('Articles')
+#7 C:\cakephp\vendor\cakephp\cakephp\src\Console\Shell.php(507): Bake\Shell\Task\ModelTask->main('Articles')
+#8 C:\cakephp\vendor\cakephp\cakephp\src\Console\Shell.php(500): Cake\Console\Shell->runCommand(Array, false, Array)
+#9 C:\cakephp\vendor\cakephp\cakephp\src\Console\CommandRunner.php(141): Cake\Console\Shell->runCommand(Array, true)
+#10 C:\cakephp\bin\cake.php(12): Cake\Console\CommandRunner->run(Array)
+#11 {main}
+
+
+2017-12-01 08:07:19 Error: [Cake\Database\Exception\MissingExtensionException] Database driver Cake\Database\Driver\Mysql cannot be used due to a missing PHP extension or unmet dependency in C:\cakephp\vendor\cakephp\cakephp\src\Database\Connection.php on line 176
+Exception Attributes: array (
+  'driver' => 'Cake\\Database\\Driver\\Mysql',
+)
+Stack Trace:
+#0 C:\cakephp\vendor\cakephp\cakephp\src\Database\Connection.php(117): Cake\Database\Connection->setDriver(Object(Cake\Database\Driver\Mysql), Array)
+#1 C:\cakephp\vendor\cakephp\cakephp\src\Datasource\ConnectionRegistry.php(89): Cake\Database\Connection->__construct(Array)
+#2 C:\cakephp\vendor\cakephp\cakephp\src\Core\ObjectRegistry.php(96): Cake\Datasource\ConnectionRegistry->_create('Cake\\Database\\C...', 'default', Array)
+#3 C:\cakephp\vendor\cakephp\cakephp\src\Datasource\ConnectionManager.php(205): Cake\Core\ObjectRegistry->load('Cake\\Database\\C...', Array)
+#4 C:\cakephp\vendor\cakephp\bake\src\Shell\Task\ModelTask.php(195): Cake\Datasource\ConnectionManager::get('default')
+#5 C:\cakephp\vendor\cakephp\bake\src\Shell\Task\ModelTask.php(112): Bake\Shell\Task\ModelTask->getTableObject('Articles', 'articles')
+#6 C:\cakephp\vendor\cakephp\bake\src\Shell\Task\ModelTask.php(100): Bake\Shell\Task\ModelTask->bake('Articles')
+#7 C:\cakephp\vendor\cakephp\cakephp\src\Console\Shell.php(507): Bake\Shell\Task\ModelTask->main('Articles')
+#8 C:\cakephp\vendor\cakephp\cakephp\src\Console\Shell.php(500): Cake\Console\Shell->runCommand(Array, false, Array)
+#9 C:\cakephp\vendor\cakephp\cakephp\src\Console\CommandRunner.php(141): Cake\Console\Shell->runCommand(Array, true)
+#10 C:\cakephp\bin\cake.php(12): Cake\Console\CommandRunner->run(Array)
+#11 {main}
+
+
