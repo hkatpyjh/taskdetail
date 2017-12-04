@@ -28,14 +28,12 @@ use <?= $namespace ?>\Controller\AppController;
  *
 <?php if ($defaultModel): ?>
  * @property \<?= $defaultModel ?> $<?= $name ?>
-
 <?php endif; ?>
 <?php
 foreach ($components as $component):
     $classInfo = $this->Bake->classInfo($component, 'Controller/Component', 'Component');
 ?>
  * @property <?= $classInfo['fqn'] ?> $<?= $classInfo['name'] ?>
-
 <?php endforeach; ?>
 <?php if (in_array('index', $actions)): ?>
  *

@@ -17,7 +17,6 @@
 /**
  * @var \<?= $namespace ?>\View\AppView $this
  * @var \<?= $entityClass ?> $<?= $singularVar ?>
-
  */
 CakePHPBakeCloseTag>
 <?php
