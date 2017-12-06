@@ -6,8 +6,7 @@ use App\Controller\AppController;
 /**
  * Articles Controller
  *
- * @property \App\Model\Table\ArticlesTable $Articles
- *
+ * @property \App\Model\Table\ArticlesTable $Articles *
  * @method \App\Model\Entity\Article[] paginate($object = null, array $settings = [])
  */
 class ArticlesController extends AppController

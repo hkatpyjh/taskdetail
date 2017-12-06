@@ -1,14 +1,13 @@
 <?php
 /**
  * @var \App\View\AppView $this
- * @var \App\Model\Entity\Article[]|\Cake\Collection\CollectionInterface $articles
- */
+ * @var \App\Model\Entity\Article[]|\Cake\Collection\CollectionInterface $articles */
 ?>
 <nav class="large-3 medium-4 columns" id="actions-sidebar">
     <ul class="side-nav">
         <li class="heading"><?= __('Actions') ?></li>
         <li><?= $this->Html->link(__('New Article'), ['action' => 'add']) ?></li>
-        <li><?= $this->Html->link(__('Posts'), ['controller'=>'posts','action' => 'index']) ?></li>
+        <li><?= $this->Html->link(__('Posts'), ['controller' => 'posts' , 'action' => 'index']) ?></li>
     </ul>
 </nav>
 <div class="articles index large-9 medium-8 columns content">

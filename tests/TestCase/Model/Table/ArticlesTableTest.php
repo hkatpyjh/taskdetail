@@ -12,10 +12,8 @@ class ArticlesTableTest extends TestCase
 {
 
     /**
-     * Test subject
-     *
-     * @var \App\Model\Table\ArticlesTable
-     */
+     * Test subject     *
+     * @var \App\Model\Table\ArticlesTable     */
     public $Articles;
 
     /**
@@ -35,9 +33,7 @@ class ArticlesTableTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-        $config = TableRegistry::exists('Articles') ? [] : ['className' => ArticlesTable::class];
-        $this->Articles = TableRegistry::get('Articles', $config);
-    }
+        $config = TableRegistry::exists('Articles') ? [] : ['className' => ArticlesTable::class];        $this->Articles = TableRegistry::get('Articles', $config);    }
 
     /**
      * tearDown method

@@ -18,22 +18,40 @@ use Cake\Validation\Validator;
  * @method \App\Model\Entity\Article findOrCreate($search, callable $callback = null, $options = [])
  *
  * @mixin \Cake\ORM\Behavior\TimestampBehavior
- */
-class ArticlesTable extends Table
+ */class ArticlesTable extends Table
 {
+
+    /**
+     * Initialize method
+     *
+     * @param array $config The configuration for the Table.
+     * @return void
+     */
     public function initialize(array $config)
     {
+        parent::initialize($config);
+
+        $this->setTable('articles');
+        $this->setDisplayField('title');
+        $this->setPrimaryKey('id');
+
         $this->addBehavior('Timestamp');
     }
 
+    /**
+     * Default validation rules.
+     *
+     * @param \Cake\Validation\Validator $validator Validator instance.
+     * @return \Cake\Validation\Validator
+     */
     public function validationDefault(Validator $validator)
     {
         $validator
-            ->notEmpty('title')
-            ->requirePresence('title')
-            ->notEmpty('body')
-            ->requirePresence('body');
-
+            ->integer('id')            ->allowEmpty('id', 'create');
+        $validator
+            ->scalar('title')            ->allowEmpty('title');
+        $validator
+            ->scalar('body')            ->allowEmpty('body');
         return $validator;
     }
 }
