@@ -1,0 +1,16 @@
+CREATE TABLE Tasks (
+    TargetYearMonthDay DATETIME PRIMARY KEY,
+    TargetYearMonth VARCHAR(50),
+    Day VARCHAR(50),
+    StartTime VARCHAR(50),
+    EndTime VARCHAR(50),
+    WorkTime VARCHAR(50),
+    WorkTimeCompany VARCHAR(50),
+    StartLocation VARCHAR(50),
+    EndLocation VARCHAR(50),
+    Notes VARCHAR(50),
+    StartOn BOOLEAN,
+    EndOn BOOLEAN,
+    NeedApplication BOOLEAN,
+    HaveTask BOOLEAN
+);

@@ -17,6 +17,7 @@
 /**
  * @var \<?= $namespace ?>\View\AppView $this
  * @var \<?= $entityClass ?> $<?= $singularVar ?>
+
  */
 CakePHPBakeCloseTag>
 <?= $this->element('form');
