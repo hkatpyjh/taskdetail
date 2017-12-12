@@ -12,8 +12,10 @@ class TasksTableTest extends TestCase
 {
 
     /**
-     * Test subject     *
-     * @var \App\Model\Table\TasksTable     */
+     * Test subject
+     *
+     * @var \App\Model\Table\TasksTable
+     */
     public $Tasks;
 
     /**
@@ -33,7 +35,9 @@ class TasksTableTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-        $config = TableRegistry::exists('Tasks') ? [] : ['className' => TasksTable::class];        $this->Tasks = TableRegistry::get('Tasks', $config);    }
+        $config = TableRegistry::exists('Tasks') ? [] : ['className' => TasksTable::class];
+        $this->Tasks = TableRegistry::get('Tasks', $config);
+    }
 
     /**
      * tearDown method

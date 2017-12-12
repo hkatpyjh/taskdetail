@@ -2,11 +2,13 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
+use Cake\Utility\Hash;
 
 /**
  * Tasks Controller
  *
- * @property \App\Model\Table\TasksTable $Tasks *
+ * @property \App\Model\Table\TasksTable $Tasks
+ *
  * @method \App\Model\Entity\Task[] paginate($object = null, array $settings = [])
  */
 class TasksController extends AppController
@@ -106,5 +108,48 @@ class TasksController extends AppController
         }
 
         return $this->redirect(['action' => 'index']);
+    }
+
+    public function sync()
+    {
+        $tasks = $this->paginate($this->Tasks);
+        
+        $tasks_json = json_decode(json_encode($tasks), Tasks::class);
+
+        $json = json_decode($this->request->getData('json'), Tasks::class);
+        
+        $results = Hash::merge($tasks_json, $json);
+
+        foreach($results as $result)
+        {
+            if($this->Tasks->exists(['TargetYearMonthDay'=>$result['TargetYearMonthDay']]))
+            {
+                 $task = $this->Tasks->get($result['TargetYearMonthDay'], [
+                    'contain' => []
+                 ]);
+
+                 $this-> saveTask($task, $result);
+            }
+            else
+            {
+                $task = $this->Tasks->newEntity();
+                $this-> saveTask($task, $result);
+            }
+        }
+        
+        //$this->Flash->success(__('The tasks has been saved.'));
+        //return $this->redirect(['action' => 'index']);
+    }
+    
+    public function saveTask($task = null, $result = null)
+    {
+        $task = $this->Tasks->patchEntity($task, $result);
+
+        if ($this->Tasks->save($task)) {
+            return;
+        }
+
+//        $this->Flash->error(__('The task could not be saved. Please, try again.'));
+//        return $this->redirect(['action' => 'index']);
     }
 }

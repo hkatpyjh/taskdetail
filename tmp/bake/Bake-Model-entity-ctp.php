@@ -42,6 +42,7 @@ namespace <?= $namespace ?>\Model\Entity;
 use Cake\ORM\Entity;
 
 <?= $this->DocBlock->classDescription($name, 'Entity', $annotations) ?>
+
 class <?= $name ?> extends Entity
 {
 <?php if (!empty($accessible)): ?>

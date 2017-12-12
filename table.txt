@@ -1,5 +1,6 @@
+
 CREATE TABLE tasks (
-    TargetYearMonthDay VARCHAR(10) DEFAULT date_format(now(),'%Y/%m/%d') PRIMARY KEY,
+    TargetYearMonthDay VARCHAR(20) DEFAULT date_format(now(),'%Y%m%d') PRIMARY KEY,
     TargetYearMonth VARCHAR(50),
     Day VARCHAR(50),
     StartTime VARCHAR(50),

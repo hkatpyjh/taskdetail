@@ -20,7 +20,8 @@ use Cake\ORM\Entity;
  * @property bool $EndOn
  * @property bool $NeedApplication
  * @property bool $HaveTask
- */class Task extends Entity
+ */
+class Task extends Entity
 {
 
     /**

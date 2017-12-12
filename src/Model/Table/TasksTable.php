@@ -16,7 +16,8 @@ use Cake\Validation\Validator;
  * @method \App\Model\Entity\Task patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
  * @method \App\Model\Entity\Task[] patchEntities($entities, array $data, array $options = [])
  * @method \App\Model\Entity\Task findOrCreate($search, callable $callback = null, $options = [])
- */class TasksTable extends Table
+ */
+class TasksTable extends Table
 {
 
     /**
@@ -43,33 +44,61 @@ use Cake\Validation\Validator;
     public function validationDefault(Validator $validator)
     {
         $validator
-            ->scalar('TargetYearMonthDay')            ->allowEmpty('TargetYearMonthDay', 'create');
+            ->scalar('TargetYearMonthDay')
+            ->allowEmpty('TargetYearMonthDay', 'create');
+
         $validator
-            ->scalar('TargetYearMonth')            ->allowEmpty('TargetYearMonth');
+            ->scalar('TargetYearMonth')
+            ->allowEmpty('TargetYearMonth');
+
         $validator
-            ->scalar('Day')            ->allowEmpty('Day');
+            ->scalar('Day')
+            ->allowEmpty('Day');
+
         $validator
-            ->scalar('StartTime')            ->allowEmpty('StartTime');
+            ->scalar('StartTime')
+            ->allowEmpty('StartTime');
+
         $validator
-            ->scalar('EndTime')            ->allowEmpty('EndTime');
+            ->scalar('EndTime')
+            ->allowEmpty('EndTime');
+
         $validator
-            ->scalar('WorkTime')            ->allowEmpty('WorkTime');
+            ->scalar('WorkTime')
+            ->allowEmpty('WorkTime');
+
         $validator
-            ->scalar('WorkTimeCompany')            ->allowEmpty('WorkTimeCompany');
+            ->scalar('WorkTimeCompany')
+            ->allowEmpty('WorkTimeCompany');
+
         $validator
-            ->scalar('StartLocation')            ->allowEmpty('StartLocation');
+            ->scalar('StartLocation')
+            ->allowEmpty('StartLocation');
+
         $validator
-            ->scalar('EndLocation')            ->allowEmpty('EndLocation');
+            ->scalar('EndLocation')
+            ->allowEmpty('EndLocation');
+
         $validator
-            ->scalar('Notes')            ->allowEmpty('Notes');
+            ->scalar('Notes')
+            ->allowEmpty('Notes');
+
         $validator
-            ->boolean('StartOn')            ->allowEmpty('StartOn');
+            ->boolean('StartOn')
+            ->allowEmpty('StartOn');
+
         $validator
-            ->boolean('EndOn')            ->allowEmpty('EndOn');
+            ->boolean('EndOn')
+            ->allowEmpty('EndOn');
+
         $validator
-            ->boolean('NeedApplication')            ->allowEmpty('NeedApplication');
+            ->boolean('NeedApplication')
+            ->allowEmpty('NeedApplication');
+
         $validator
-            ->boolean('HaveTask')            ->allowEmpty('HaveTask');
+            ->boolean('HaveTask')
+            ->allowEmpty('HaveTask');
+
         return $validator;
     }
 }
