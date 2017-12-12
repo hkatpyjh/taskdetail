@@ -1,8 +1,7 @@
 <?php
 /**
  * @var \App\View\AppView $this
- * @var \App\Model\Entity\Task $task
- */
+ * @var \App\Model\Entity\Task $task */
 ?>
 <nav class="large-3 medium-4 columns" id="actions-sidebar">
     <ul class="side-nav">
@@ -15,7 +14,6 @@
     <fieldset>
         <legend><?= __('Add Task') ?></legend>
         <?php
-            echo $this->Form->control('TargetYearMonthDay');
             echo $this->Form->control('TargetYearMonth');
             echo $this->Form->control('Day');
             echo $this->Form->control('StartTime');

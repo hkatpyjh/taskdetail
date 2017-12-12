@@ -6,7 +6,7 @@ use Cake\ORM\Entity;
 /**
  * Task Entity
  *
- * @property \Cake\I18n\FrozenTime $TargetYearMonthDay
+ * @property string $TargetYearMonthDay
  * @property string $TargetYearMonth
  * @property string $Day
  * @property string $StartTime
@@ -20,8 +20,7 @@ use Cake\ORM\Entity;
  * @property bool $EndOn
  * @property bool $NeedApplication
  * @property bool $HaveTask
- */
-class Task extends Entity
+ */class Task extends Entity
 {
 
     /**

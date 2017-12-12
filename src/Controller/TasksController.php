@@ -6,8 +6,7 @@ use App\Controller\AppController;
 /**
  * Tasks Controller
  *
- * @property \App\Model\Table\TasksTable $Tasks
- *
+ * @property \App\Model\Table\TasksTable $Tasks *
  * @method \App\Model\Entity\Task[] paginate($object = null, array $settings = [])
  */
 class TasksController extends AppController

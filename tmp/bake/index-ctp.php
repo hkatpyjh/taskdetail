@@ -17,7 +17,6 @@
 /**
  * @var \<?= $namespace ?>\View\AppView $this
  * @var \<?= $entityClass ?>[]|\Cake\Collection\CollectionInterface $<?= $pluralVar ?>
-
  */
 CakePHPBakeCloseTag>
 <?php

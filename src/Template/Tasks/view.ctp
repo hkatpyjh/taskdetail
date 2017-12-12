@@ -1,21 +1,24 @@
 <?php
 /**
  * @var \App\View\AppView $this
- * @var \App\Model\Entity\Task $task
- */
+ * @var \App\Model\Entity\Task $task */
 ?>
 <nav class="large-3 medium-4 columns" id="actions-sidebar">
     <ul class="side-nav">
         <li class="heading"><?= __('Actions') ?></li>
-        <li><?= $this->Html->link(__('Edit Task'), ['action' => 'edit', $task->id]) ?> </li>
-        <li><?= $this->Form->postLink(__('Delete Task'), ['action' => 'delete', $task->id], ['confirm' => __('Are you sure you want to delete # {0}?', $task->id)]) ?> </li>
+        <li><?= $this->Html->link(__('Edit Task'), ['action' => 'edit', $task->TargetYearMonthDay]) ?> </li>
+        <li><?= $this->Form->postLink(__('Delete Task'), ['action' => 'delete', $task->TargetYearMonthDay], ['confirm' => __('Are you sure you want to delete # {0}?', $task->TargetYearMonthDay)]) ?> </li>
         <li><?= $this->Html->link(__('List Tasks'), ['action' => 'index']) ?> </li>
         <li><?= $this->Html->link(__('New Task'), ['action' => 'add']) ?> </li>
     </ul>
 </nav>
 <div class="tasks view large-9 medium-8 columns content">
-    <h3><?= h($task->id) ?></h3>
+    <h3><?= h($task->TargetYearMonthDay) ?></h3>
     <table class="vertical-table">
+        <tr>
+            <th scope="row"><?= __('TargetYearMonthDay') ?></th>
+            <td><?= h($task->TargetYearMonthDay) ?></td>
+        </tr>
         <tr>
             <th scope="row"><?= __('TargetYearMonth') ?></th>
             <td><?= h($task->TargetYearMonth) ?></td>
@@ -51,10 +54,6 @@
         <tr>
             <th scope="row"><?= __('Notes') ?></th>
             <td><?= h($task->Notes) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('TargetYearMonthDay') ?></th>
-            <td><?= h($task->TargetYearMonthDay) ?></td>
         </tr>
         <tr>
             <th scope="row"><?= __('StartOn') ?></th>

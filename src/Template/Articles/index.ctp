@@ -7,7 +7,7 @@
     <ul class="side-nav">
         <li class="heading"><?= __('Actions') ?></li>
         <li><?= $this->Html->link(__('New Article'), ['action' => 'add']) ?></li>
-        <li><?= $this->Html->link(__('Posts'), ['controller' => 'posts' , 'action' => 'index']) ?></li>
+        <li><?= $this->Html->link(__('Posts'), ['controller' => 'Posts' ,'action' => 'index']) ?></li>
     </ul>
 </nav>
 <div class="articles index large-9 medium-8 columns content">

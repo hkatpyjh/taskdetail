@@ -1,8 +1,7 @@
 <?php
 /**
  * @var \App\View\AppView $this
- * @var \App\Model\Entity\Task[]|\Cake\Collection\CollectionInterface $tasks
- */
+ * @var \App\Model\Entity\Task[]|\Cake\Collection\CollectionInterface $tasks */
 ?>
 <nav class="large-3 medium-4 columns" id="actions-sidebar">
     <ul class="side-nav">
@@ -50,9 +49,9 @@
                 <td><?= h($task->NeedApplication) ?></td>
                 <td><?= h($task->HaveTask) ?></td>
                 <td class="actions">
-                    <?= $this->Html->link(__('View'), ['action' => 'view', $task->id]) ?>
-                    <?= $this->Html->link(__('Edit'), ['action' => 'edit', $task->id]) ?>
-                    <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $task->id], ['confirm' => __('Are you sure you want to delete # {0}?', $task->id)]) ?>
+                    <?= $this->Html->link(__('View'), ['action' => 'view', $task->TargetYearMonthDay]) ?>
+                    <?= $this->Html->link(__('Edit'), ['action' => 'edit', $task->TargetYearMonthDay]) ?>
+                    <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $task->TargetYearMonthDay], ['confirm' => __('Are you sure you want to delete # {0}?', $task->TargetYearMonthDay)]) ?>
                 </td>
             </tr>
             <?php endforeach; ?>

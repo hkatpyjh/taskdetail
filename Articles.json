@@ -1,0 +1,37 @@
+[
+        {
+            "id": 1,
+            "title": "The title",
+            "body": "This is the article body.",
+            "created": "2017-12-05T15:12:40+00:00",
+            "modified": null
+        },
+        {
+            "id": 2,
+            "title": "A title once again",
+            "body": "And the article body follows.",
+            "created": "2017-12-05T15:12:40+00:00",
+            "modified": null
+        },
+        {
+            "id": 3,
+            "title": "Title strikes back",
+            "body": "This is really exciting! Not.",
+            "created": "2017-12-05T15:12:40+00:00",
+            "modified": "2017-12-05T15:12:40+00:00"
+        },
+        {
+            "id": 4,
+            "title": "Title strikes back",
+            "body": "This is really exciting! Not.",
+            "created": "2017-12-05T15:12:40+00:00",
+            "modified": null
+        },
+        {
+            "id": 5,
+            "title": "Test Article",
+            "body": "This is really exciting! Not.",
+            "created": "2017-12-05T15:12:40+00:00",
+            "modified": "2017-12-05"
+        }
+]

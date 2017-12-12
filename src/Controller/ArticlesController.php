@@ -2,6 +2,8 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
+use Cake\Utility\ Hash;
+
 
 /**
  * Articles Controller
@@ -11,6 +13,12 @@ use App\Controller\AppController;
  */
 class ArticlesController extends AppController
 {
+
+    public function initialize()
+    {
+        parent::initialize();
+        $this->loadComponent('RequestHandler');
+    }
 
     /**
      * Index method
@@ -105,6 +113,48 @@ class ArticlesController extends AppController
             $this->Flash->error(__('The article could not be deleted. Please, try again.'));
         }
 
+        return $this->redirect(['action' => 'index']);
+    }
+    
+    public function sync()
+    {
+        $articles = $this->paginate($this->Articles);
+        
+        $articles_json = json_decode(json_encode($articles), Articles::class);
+
+        $json = json_decode($this->request->getData('json'), Articles::class);
+
+        $res = Hash::merge($articles_json, $json);
+
+        foreach($res as $r)
+        {
+            if($this->Articles->exists(['id'=>$r['id']]))
+            {
+                 $article = $this->Articles->get($r['id'], [
+                    'contain' => []
+                 ]);
+
+                 $this->saveArticle($article, $r);
+            }
+            else
+            {
+                $article = $this->Articles->newEntity();
+                $this->saveArticle($article, $r);
+            }
+        }
+        
+        $this->Flash->success(__('The articles has been saved.'));
+        return $this->redirect(['action' => 'index']);
+    }
+    
+    public function saveArticle($article = null, $r = null)
+    {
+        $article = $this->Articles->patchEntity($article, $r);
+        if ($this->Articles->save($article)) {
+            return;
+        }
+
+        $this->Flash->error(__('The articles could not be saved. Please, try again.'));
         return $this->redirect(['action' => 'index']);
     }
 }
