@@ -15,3 +15,6 @@ CREATE TABLE tasks (
     NeedApplication BOOLEAN,
     HaveTask BOOLEAN
 );
+
+
+[{"TargetYearMonthDay":"20171213","TargetYearMonth":"201712","Day":"13(水)","StartTime":"00:05","EndTime":"00:05","WorkTime":"00:00","WorkTimeCompany":"00:00","StartLocation":"San FranciscoStockton St1000","EndLocation":"San FranciscoStockton St1000","Notes":null,"StartOn":true,"EndOn":true,"NeedApplication":false,"HaveTask":false}]
