@@ -44,27 +44,6 @@ class TasksController extends AppController
     }
 
     /**
-     * Add method
-     *
-     * @return \Cake\Http\Response|null Redirects on successful add, renders view otherwise.
-     */
-    public function add()
-    {
-        $task = $this->Tasks->newEntity();
-        if ($this->request->is('post')) {
-            $task = $this->Tasks->patchEntity($task, $this->request->getData());
-            if ($this->Tasks->save($task)) {
-                $this->Flash->success(__('The task has been saved.'));
-
-                return $this->redirect(['action' => 'index']);
-            }
-            $this->Flash->error(__('The task could not be saved. Please, try again.'));
-        }
-        $this->set(compact('task'));
-        $this->set('_serialize', ['task']);
-    }
-
-    /**
      * Edit method
      *
      * @param string|null $id Task id.
@@ -89,26 +68,6 @@ class TasksController extends AppController
         $this->set('_serialize', ['task']);
     }
 
-    /**
-     * Delete method
-     *
-     * @param string|null $id Task id.
-     * @return \Cake\Http\Response|null Redirects to index.
-     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
-     */
-    public function delete($id = null)
-    {
-        $this->request->allowMethod(['post', 'delete']);
-        $task = $this->Tasks->get($id);
-        if ($this->Tasks->delete($task)) {
-            $this->Flash->success(__('The task has been deleted.'));
-        } else {
-            $this->Flash->error(__('The task could not be deleted. Please, try again.'));
-        }
-
-        return $this->redirect(['action' => 'index']);
-    }
-
     public function sync()
     {
         $tasks = $this->paginate($this->Tasks);
@@ -119,6 +78,8 @@ class TasksController extends AppController
         
         $results = Hash::merge($tasks_json, $json);
 
+        $response = $this->response->withStringBody('Success');
+
         foreach($results as $result)
         {
             if($this->Tasks->exists(['TargetYearMonthDay'=>$result['TargetYearMonthDay']]))
@@ -127,28 +88,31 @@ class TasksController extends AppController
                     'contain' => []
                  ]);
 
-                 $this-> saveTask($task, $result);
+                if($this->saveTask($task, $result)){
+                    $response = $this->response->withStringBody('Failed');
+                }
             }
             else
             {
                 $task = $this->Tasks->newEntity();
-                $this-> saveTask($task, $result);
+                if($this->saveTask($task, $result)){
+                    $response = $this->response->withStringBody('Failed');
+                }
             }
         }
-        
-       // $this->Flash->success(__('The tasks has been saved.'));
-       // return $this->redirect(['action' => 'index']);
+
+        return $response;
     }
     
     public function saveTask($task = null, $result = null)
     {
         $task = $this->Tasks->patchEntity($task, $result);
 
-        if ($this->Tasks->save($task)) {
-            return;
+        if($this->Tasks->save($task))
+        {
+            return false;
         }
 
-//        $this->Flash->error(__('The task could not be saved. Please, try again.'));
-//        return $this->redirect(['action' => 'index']);
+        return true;
     }
 }

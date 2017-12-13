@@ -7,9 +7,7 @@
     <ul class="side-nav">
         <li class="heading"><?= __('Actions') ?></li>
         <li><?= $this->Html->link(__('Edit Task'), ['action' => 'edit', $task->TargetYearMonthDay]) ?> </li>
-        <li><?= $this->Form->postLink(__('Delete Task'), ['action' => 'delete', $task->TargetYearMonthDay], ['confirm' => __('Are you sure you want to delete # {0}?', $task->TargetYearMonthDay)]) ?> </li>
         <li><?= $this->Html->link(__('List Tasks'), ['action' => 'index']) ?> </li>
-        <li><?= $this->Html->link(__('New Task'), ['action' => 'add']) ?> </li>
     </ul>
 </nav>
 <div class="tasks view large-9 medium-8 columns content">

@@ -6,7 +6,6 @@
 <nav class="large-3 medium-4 columns" id="actions-sidebar">
     <ul class="side-nav">
         <li class="heading"><?= __('Actions') ?></li>
-        <li><?= $this->Html->link(__('New Task'), ['action' => 'add']) ?></li>
     </ul>
 </nav>
 <div class="tasks index large-9 medium-8 columns content">
@@ -31,7 +30,6 @@
                 <td class="actions">
                     <?= $this->Html->link(__('View'), ['action' => 'view', $task->TargetYearMonthDay]) ?>
                     <?= $this->Html->link(__('Edit'), ['action' => 'edit', $task->TargetYearMonthDay]) ?>
-                    <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $task->TargetYearMonthDay], ['confirm' => __('Are you sure you want to delete # {0}?', $task->TargetYearMonthDay)]) ?>
                 </td>
             </tr>
             <?php endforeach; ?>
