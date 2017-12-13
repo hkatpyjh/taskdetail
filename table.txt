@@ -8,7 +8,6 @@ CREATE TABLE tasks (
     WorkTimeCompany VARCHAR(50),
     StartLocation VARCHAR(50),
     EndLocation VARCHAR(50),
-    Notes VARCHAR(50),
     StartOn BOOLEAN,
     EndOn BOOLEAN,
     NeedApplication BOOLEAN,

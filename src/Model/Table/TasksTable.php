@@ -61,8 +61,6 @@ use Cake\Validation\Validator;
         $validator
             ->scalar('EndLocation')            ->allowEmpty('EndLocation');
         $validator
-            ->scalar('Notes')            ->allowEmpty('Notes');
-        $validator
             ->boolean('StartOn')            ->allowEmpty('StartOn');
         $validator
             ->boolean('EndOn')            ->allowEmpty('EndOn');

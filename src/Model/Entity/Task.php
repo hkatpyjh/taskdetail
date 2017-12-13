@@ -15,7 +15,6 @@ use Cake\ORM\Entity;
  * @property string $WorkTimeCompany
  * @property string $StartLocation
  * @property string $EndLocation
- * @property string $Notes
  * @property bool $StartOn
  * @property bool $EndOn
  * @property bool $NeedApplication
@@ -42,7 +41,6 @@ use Cake\ORM\Entity;
         'WorkTimeCompany' => true,
         'StartLocation' => true,
         'EndLocation' => true,
-        'Notes' => true,
         'StartOn' => true,
         'EndOn' => true,
         'NeedApplication' => true,

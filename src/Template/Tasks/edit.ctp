@@ -22,7 +22,6 @@
             echo $this->Form->control('WorkTimeCompany');
             echo $this->Form->control('StartLocation');
             echo $this->Form->control('EndLocation');
-            echo $this->Form->control('Notes');
             echo $this->Form->control('StartOn');
             echo $this->Form->control('EndOn');
             echo $this->Form->control('NeedApplication');

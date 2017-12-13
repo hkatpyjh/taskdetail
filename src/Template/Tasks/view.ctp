@@ -50,10 +50,6 @@
             <td><?= h($task->EndLocation) ?></td>
         </tr>
         <tr>
-            <th scope="row"><?= __('Notes') ?></th>
-            <td><?= h($task->Notes) ?></td>
-        </tr>
-        <tr>
             <th scope="row"><?= __('StartOn') ?></th>
             <td><?= $task->StartOn ? __('Yes') : __('No'); ?></td>
         </tr>
