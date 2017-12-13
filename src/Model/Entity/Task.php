@@ -20,8 +20,7 @@ use Cake\ORM\Entity;
  * @property bool $EndOn
  * @property bool $NeedApplication
  * @property bool $HaveTask
- */
-class Task extends Entity
+ */class Task extends Entity
 {
 
     /**
@@ -34,6 +33,7 @@ class Task extends Entity
      * @var array
      */
     protected $_accessible = [
+        'TargetYearMonthDay' => true,
         'TargetYearMonth' => true,
         'Day' => true,
         'StartTime' => true,

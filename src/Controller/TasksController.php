@@ -7,8 +7,7 @@ use Cake\Utility\Hash;
 /**
  * Tasks Controller
  *
- * @property \App\Model\Table\TasksTable $Tasks
- *
+ * @property \App\Model\Table\TasksTable $Tasks *
  * @method \App\Model\Entity\Task[] paginate($object = null, array $settings = [])
  */
 class TasksController extends AppController
@@ -137,8 +136,8 @@ class TasksController extends AppController
             }
         }
         
-        //$this->Flash->success(__('The tasks has been saved.'));
-        //return $this->redirect(['action' => 'index']);
+       // $this->Flash->success(__('The tasks has been saved.'));
+       // return $this->redirect(['action' => 'index']);
     }
     
     public function saveTask($task = null, $result = null)

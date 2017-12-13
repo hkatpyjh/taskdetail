@@ -1,8 +1,7 @@
 <?php
 /**
  * @var \App\View\AppView $this
- * @var \App\Model\Entity\Task[]|\Cake\Collection\CollectionInterface $tasks
- */
+ * @var \App\Model\Entity\Task[]|\Cake\Collection\CollectionInterface $tasks */
 ?>
 <nav class="large-3 medium-4 columns" id="actions-sidebar">
     <ul class="side-nav">
@@ -16,19 +15,9 @@
         <thead>
             <tr>
                 <th scope="col"><?= $this->Paginator->sort('TargetYearMonthDay') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('TargetYearMonth') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('Day') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('StartTime') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('EndTime') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('WorkTime') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('WorkTimeCompany') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('StartLocation') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('EndLocation') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('Notes') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('StartOn') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('EndOn') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('NeedApplication') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('HaveTask') ?></th>
                 <th scope="col" class="actions"><?= __('Actions') ?></th>
             </tr>
         </thead>
@@ -36,19 +25,9 @@
             <?php foreach ($tasks as $task): ?>
             <tr>
                 <td><?= h($task->TargetYearMonthDay) ?></td>
-                <td><?= h($task->TargetYearMonth) ?></td>
-                <td><?= h($task->Day) ?></td>
                 <td><?= h($task->StartTime) ?></td>
                 <td><?= h($task->EndTime) ?></td>
                 <td><?= h($task->WorkTime) ?></td>
-                <td><?= h($task->WorkTimeCompany) ?></td>
-                <td><?= h($task->StartLocation) ?></td>
-                <td><?= h($task->EndLocation) ?></td>
-                <td><?= h($task->Notes) ?></td>
-                <td><?= h($task->StartOn) ?></td>
-                <td><?= h($task->EndOn) ?></td>
-                <td><?= h($task->NeedApplication) ?></td>
-                <td><?= h($task->HaveTask) ?></td>
                 <td class="actions">
                     <?= $this->Html->link(__('View'), ['action' => 'view', $task->TargetYearMonthDay]) ?>
                     <?= $this->Html->link(__('Edit'), ['action' => 'edit', $task->TargetYearMonthDay]) ?>
