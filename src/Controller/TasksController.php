@@ -68,6 +68,17 @@ class TasksController extends AppController
         $this->set('_serialize', ['task']);
     }
 
+    public function pull()
+    {
+        $tasks = $this->Tasks->find('all');
+        
+        $tasks_json = json_encode($tasks);
+
+        $response = $this->response->withStringBody($tasks_json);
+
+        return $response;
+    }
+
     public function sync()
     {
         $tasks = $this->paginate($this->Tasks);
