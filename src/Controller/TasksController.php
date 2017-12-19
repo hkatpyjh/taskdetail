@@ -50,7 +50,7 @@ class TasksController extends AppController
      * @return \Cake\Http\Response|null Redirects on successful edit, renders view otherwise.
      * @throws \Cake\Network\Exception\NotFoundException When record not found.
      */
-    public function edit($id = null)
+    public function edit($id = null, $page = null)
     {
         $task = $this->Tasks->get($id, [
             'contain' => []
@@ -60,7 +60,12 @@ class TasksController extends AppController
             if ($this->Tasks->save($task)) {
                 $this->Flash->success(__('The task has been saved.'));
 
-                return $this->redirect(['action' => 'index']);
+                if(empty($page)){
+                    return $this->redirect(['action' => 'index']);
+                }
+                else {
+                    return $this->redirect(['action' => sprintf('index?page=%s',$page)]);
+                }
             }
             $this->Flash->error(__('The task could not be saved. Please, try again.'));
         }

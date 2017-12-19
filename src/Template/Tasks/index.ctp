@@ -24,7 +24,7 @@
                 <td><?= h($task->WorkTime) ?></td>
                 <td class="actions">
                     <?= $this->Html->link(__('View'), ['action' => 'view', $task->TargetYearMonthDay]) ?>
-                    <?= $this->Html->link(__('Edit'), ['action' => 'edit', $task->TargetYearMonthDay]) ?>
+                    <?= $this->Html->link(__('Edit'), ['action' => 'edit', $task->TargetYearMonthDay,$this->Paginator->counter(array('format' => ('{{page}}')))]) ?>
                 </td>
             </tr>
             <?php endforeach; ?>
