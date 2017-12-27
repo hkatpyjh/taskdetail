@@ -18,8 +18,21 @@ class TasksController extends AppController
      *
      * @return \Cake\Http\Response|void
      */
-    public function index()
+    public function index($page = null)
     {
+    var_dump($page);
+        if(!empty($page)){
+            $config = [
+                'page' => $page
+            ];
+            
+            $tasks = $this->paginate($this->Tasks, $config);
+
+            $this->set(compact('tasks'));
+            $this->set('_serialize', ['tasks']);
+            return;
+        }
+
         $tasks = $this->paginate($this->Tasks);
 
         $this->set(compact('tasks'));
@@ -70,7 +83,9 @@ class TasksController extends AppController
             $this->Flash->error(__('The task could not be saved. Please, try again.'));
         }
         $this->set(compact('task'));
+        $this->set(compact('page'));
         $this->set('_serialize', ['task']);
+        $this->set('_serialize', ['page']);
     }
 
     public function pull()
