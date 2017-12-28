@@ -7,7 +7,7 @@
     <ul class="side-nav">
         <li class="heading"><?= __('Actions') ?></li>
         <li><?= $this->Html->link(__('Edit Task'), ['action' => 'edit', $task->TargetYearMonthDay]) ?> </li>
-        <li><?= $this->Html->link(__('List Tasks'), ['action' => 'index']) ?> </li>
+        <li><?= $this->Html->link(__('List Tasks'), ['action' => 'index', $page]) ?> </li>
     </ul>
 </nav>
 <div class="tasks view large-9 medium-8 columns content">

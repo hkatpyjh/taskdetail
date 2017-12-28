@@ -20,7 +20,6 @@ class TasksController extends AppController
      */
     public function index($page = null)
     {
-    var_dump($page);
         if(!empty($page)){
             $config = [
                 'page' => $page
@@ -46,14 +45,16 @@ class TasksController extends AppController
      * @return \Cake\Http\Response|void
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function view($id = null)
+    public function view($id = null, $page = null)
     {
         $task = $this->Tasks->get($id, [
             'contain' => []
         ]);
 
         $this->set('task', $task);
+        $this->set(compact('page'));
         $this->set('_serialize', ['task']);
+        $this->set('_serialize', ['page']);
     }
 
     /**
