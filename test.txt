@@ -1,0 +1,201 @@
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Text.RegularExpressions;
+using System.Threading;
+using System.Threading.Tasks;
+
+namespace TestHttpClient
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            var handler = new HttpClientHandler() { UseCookies = true };
+            using (var client = new HttpClient(handler))
+            {
+                // ÉwÉbÉ_Å[ÇÃê›íË
+                client.DefaultRequestHeaders.Clear();
+                client.DefaultRequestHeaders.Add("User-Agent", "Mozilla/5.0 (Windows NT 6.1; rv:35.0) Gecko/20100101 Firefox/35.0");
+                client.DefaultRequestHeaders.Add("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
+                client.DefaultRequestHeaders.Add("Accept-Language", "ja,en-us;q=0.7,en;q=0.3");
+                var cookie = AsyncHelper.RunSync<string>(() => GetCookie(client));
+                Debug.WriteLine(cookie);
+                AsyncHelper.RunSync(() => Login(client, cookie));
+                Console.WriteLine("Downloading page...");
+                Console.ReadLine();
+            }
+        }
+
+        private static async Task AddCart(HttpClient client, string cookie, FormUrlEncodedContent param)
+        {
+            var response1 = await client.PostAsync("https://edepart.omni7.jp/addcart/OP_OSA0020_002_22Action.do", param);
+            var content1 = response1.Content;
+            // ... Read the string.
+            string result1 = await content1.ReadAsStringAsync();
+
+            // ... Display the result.
+            if (result1 != null)
+            {
+                var response = await client.GetAsync("https://www.omni7.jp/cart/OP_OSE0100_001_01.do");
+                var content = response.Content;
+                var str = await content.ReadAsStringAsync();
+
+                Thread.Sleep(5000);
+                AsyncHelper.RunSync(() => Reserve(client, cookie, str));
+            }
+        }
+
+        private static async Task PickItem(HttpClient client, string cookie)
+        {
+            var response = await client.GetAsync("https://edepart.omni7.jp/detail/00100250499999762356");
+            var content = response.Content;
+            // ... Read the string.
+            string result = await content.ReadAsStringAsync();
+            result = result.Replace("\n", "[ESCAPE]");
+            var pattern1 = ".form name=.OP_OSA0020_002_22Form.(.*).form.";
+            Regex r1 = new Regex(pattern1, RegexOptions.IgnoreCase);
+            var m1 = r1.Match(result);
+            var text2 = m1.Groups[0].ToString().Replace("[ESCAPE]", "\r\n");
+            var pattern2 = "(.input type=.hidden.){1}.*(.>)";
+            Regex r2 = new Regex(pattern2, RegexOptions.IgnoreCase);
+            var m2 = r2.Matches(text2);
+            FormUrlEncodedContent param1 = null;
+            var dic = new Dictionary<string, string>();
+            foreach (var a in m2)
+            {
+                Debug.WriteLine(a);
+                var pattern3 = "(name=\".*\").?(value=\".*\")";
+                Regex r3 = new Regex(pattern3, RegexOptions.IgnoreCase);
+                var m3 = r3.Match(a.ToString());
+                Debug.WriteLine(m3.Groups[0]);
+                if (m3.Groups.Count == 1)
+                {
+                    continue;
+                }
+                dic.Add(m3.Groups[1].ToString().Replace("\"", "").Split('=')[1], m3.Groups[2].ToString().Replace("\"", "").Split('=')[1]);
+            }
+            dic.Add("addCartEntity.addCartGoodsInfoList[0].buyCnt", "1");
+            param1 = new FormUrlEncodedContent(dic);
+            param1.Headers.Add("Cookie", cookie);
+            Thread.Sleep(5000);
+            AsyncHelper.RunSync(() => AddCart(client, cookie, param1));
+        }
+
+        private static async Task Reserve(HttpClient client, string cookie, string result)
+        {
+            File.WriteAllText(@"C:\Users\tikK67006\Desktop\c.txt", result);
+            FormUrlEncodedContent param1 = null;
+            // ... Display the result.
+            if (result != null)
+            {
+                result = result.Replace("\n", "[ESCAPE]");
+                var pattern1 = ".form name=.OP_OSE0000_001_01Form.(.*).form.";
+                Regex r1 = new Regex(pattern1, RegexOptions.IgnoreCase);
+                var m1 = r1.Match(result);
+                var text2 = m1.Groups[0].ToString().Replace("[ESCAPE]", "\r\n");
+                var pattern2 = "(.input type=.hidden.){1}.*(.>)";
+                Regex r2 = new Regex(pattern2, RegexOptions.IgnoreCase);
+                var m2 = r2.Matches(text2);
+                var dic = new Dictionary<string, string>();
+                string cd = null;
+                foreach (var a in m2)
+                {
+                    //Debug.WriteLine(a);
+                    var pattern3 = "(name=\".*\").?(value=\".*\")";
+                    Regex r3 = new Regex(pattern3, RegexOptions.IgnoreCase);
+                    var m3 = r3.Match(a.ToString());
+                    if (m3.Groups.Count == 1)
+                    {
+                        continue;
+                    }
+                    var d1 = m3.Groups[1].ToString().Replace("\"", "").Split('=');
+                    var d2 = m3.Groups[2].ToString().Replace("\"", "").Split('=');
+                    dic.Add(d1[1], d2[1]);
+                    if (String.Equals(d1[1], "qtyChangeDataBean[0].oldQty"))
+                    {
+                        cd = d2[1];
+                    }
+                }
+                dic["toOrder"] = "toOrder";
+
+                dic.Add("qtyChangeDataBean[0].qty", cd);
+                param1 = new FormUrlEncodedContent(dic);
+                param1.Headers.Add("Cookie", cookie);
+            }
+
+            var response1 = await client.PostAsync("https://www.omni7.jp/cart/OP_OSE0000_001_01.do", param1);
+            var content1 = response1.Content;
+            // ... Read the string.
+            string result1 = await content1.ReadAsStringAsync();
+
+            // ... Display the result.
+            if (result1 != null)
+            {
+                File.WriteAllText(@"C:\Users\tikK67006\Desktop\b.txt", result1);
+            }
+        }
+
+        private static async Task Login(HttpClient client, string cookie)
+        {
+            try
+            {
+                Thread.Sleep(5000);
+                var param = new FormUrlEncodedContent(new Dictionary<string, string>
+            {
+                { "login", "ksd523288@gmail.com" },
+                { "password", "knight123" }
+            });
+                param.Headers.Add("Cookie", cookie);
+
+                var response = await client.PostAsync("https://www.omni7.jp/account/OP_OSD0010_001_02.do", param);
+                var content = response.Content;
+
+                // ... Read the string.
+                string result = await content.ReadAsStringAsync();
+
+                // ... Display the result.
+                if (result != null)
+                {
+                    Console.WriteLine("OK");
+                }
+
+                Thread.Sleep(5000);
+                AsyncHelper.RunSync(() => PickItem(client, cookie));
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e);
+            }
+        }
+
+        private static async Task<string> GetCookie(HttpClient client)
+        {
+            // ... Target page.
+            string page = "https://www.omni7.jp/account/login";
+            var response = await client.GetAsync(page);
+            var content = response.Content;
+            // ... Read the string.
+            string result = await content.ReadAsStringAsync();
+
+            string cookie = null;
+
+            // ... Display the result.
+            if (result != null)
+            {
+                cookie = response.Headers.GetValues("Set-Cookie").First();
+                //Console.WriteLine(result);
+                var pattern = "(<form).*[OP_OSD0010_001_02.do]{1}.*";
+                Regex r = new Regex(pattern, RegexOptions.IgnoreCase);
+                Match m = r.Match(result);
+                Debug.WriteLine(m.Groups[0]);
+            }
+
+            return cookie;
+        }
+    }
+}
