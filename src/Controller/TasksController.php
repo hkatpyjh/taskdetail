@@ -104,7 +104,7 @@ class TasksController extends AppController
     {
         $tasks = $this->paginate($this->Tasks);
         
-        $tasks_json = json_decode(json_encode($tasks), Tasks::class);
+        $tasks_json = json_decode(json_encode($tasks));
 
         $json = json_decode($this->request->getData('json'));
 
