@@ -106,7 +106,7 @@ class TasksController extends AppController
         
         $tasks_json = json_decode(json_encode($tasks), Tasks::class);
 
-        $json = json_decode($this->request->getData(), true);
+        $json = json_decode($this->request->getData());
         var_dump($json);
         if(true){
             $response = $this->response->withStringBody($json);
