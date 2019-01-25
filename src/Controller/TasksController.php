@@ -104,10 +104,10 @@ class TasksController extends AppController
     {
         $tasks = $this->paginate($this->Tasks);
         
-        $tasks_json = json_decode(json_encode($tasks), true);
+        $tasks_json = json_decode(json_encode($tasks), Tasks::class);
         
         //$json = json_decode($this->stripQutos(stripslashes($this->request->getData())), true);
-        $json = json_decode($this->request->input('json_decode'));
+        $json = json_decode($this->request->input('json_decode'), Tasks::class);
  var_dump($json);
         $results = Hash::merge($tasks_json, $json);
 var_dump($results);
