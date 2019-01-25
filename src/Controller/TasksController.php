@@ -106,7 +106,7 @@ class TasksController extends AppController
         
         $tasks_json = json_decode(json_encode($tasks), true);
         
-        $json = json_decode(strips($this->request->getData('json')), true);
+        $json = json_decode(stripQutos(stripslashes($this->request->getData('json'))), true);
         var_dump($json);
  
         $results = Hash::merge($tasks_json, $json);
@@ -137,8 +137,8 @@ class TasksController extends AppController
         return $response;
     }
     
-    function strips($text) {
-      $unquoted = preg_replace('/^(\'(.*)\'|"(.*)")$/', '$2$3', stripslashes($text));
+    function stripQutos($text) {
+      $unquoted = preg_replace('/(^[\"\']|[\"\']$)/', '$2$3', $text);
       return $unquoted;
     } 
     
