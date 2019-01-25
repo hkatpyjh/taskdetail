@@ -138,7 +138,7 @@ class TasksController extends AppController
     }
     
     function stripQutos($text) {
-      $unquoted = preg_replace('/(^[\"\']|[\"\']$)/', '$2$3', $text);
+      $unquoted = preg_replace('/(^[\"\']|[\"\']$)/', '', $text);
       return $unquoted;
     } 
     
