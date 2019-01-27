@@ -108,9 +108,8 @@ class TasksController extends AppController
 
         $json = json_decode($this->stripQutos(stripslashes($this->request->getData('json'))), Tasks::class);
         
- var_dump($json);
         $results = Hash::merge($tasks_json, $json);
-var_dump($results);
+        
         $response = $this->response->withStringBody('Success');
 
         foreach($results as $result)
