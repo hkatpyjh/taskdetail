@@ -13,3 +13,9 @@ CREATE TABLE tasks (
     NeedApplication BOOLEAN,
     HaveTask BOOLEAN
 );
+
+CREATE TABLE reserves (
+    Seq VARCHAR(20) DEFAULT '' PRIMARY KEY,
+    Serial VARCHAR(5)
+);
+
