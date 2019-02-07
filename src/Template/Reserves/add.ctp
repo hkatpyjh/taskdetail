@@ -15,6 +15,7 @@
     <fieldset>
         <legend><?= __('Add Reserve') ?></legend>
         <?php
+            echo $this->Form->control('Seq');
             echo $this->Form->control('Serial');
         ?>
     </fieldset>

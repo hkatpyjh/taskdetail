@@ -32,6 +32,7 @@ class ReservesTable extends Table
 
         $this->setTable('reserves');
         $this->setDisplayField('Seq');
+        $this->setPrimaryKey('Seq');
     }
 
     /**
