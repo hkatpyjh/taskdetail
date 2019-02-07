@@ -15,7 +15,7 @@ CREATE TABLE tasks (
 );
 
 CREATE TABLE reserves (
-    Seq VARCHAR(20) DEFAULT '' PRIMARY KEY,
+    Seq VARCHAR(20),
     Serial VARCHAR(5)
 );
 
