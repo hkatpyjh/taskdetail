@@ -15,7 +15,9 @@ CREATE TABLE tasks (
 );
 
 CREATE TABLE reserves (
+    id MEDIUMINT NOT NULL AUTO_INCREMENT,
     Seq VARCHAR(20),
-    Serial VARCHAR(5)
+    Serial VARCHAR(5),
+    PRIMARY KEY (id)
 );
 
