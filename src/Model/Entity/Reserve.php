@@ -6,6 +6,7 @@ use Cake\ORM\Entity;
 /**
  * Reserve Entity
  *
+ * @property int $id
  * @property string $Seq
  * @property string $Serial
  */
@@ -22,6 +23,7 @@ class Reserve extends Entity
      * @var array
      */
     protected $_accessible = [
+        'Seq' => true,
         'Serial' => true
     ];
 }

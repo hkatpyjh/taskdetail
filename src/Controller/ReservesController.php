@@ -93,9 +93,8 @@ class ReservesController extends AppController
     {
         $id = $this->request->query('id');
         var_dump($id);
-        $reserves = $this->Reserves->get($id, [
-            'contain' => []
-        ]);
+        $reserves = $this->Reserves->find('all')
+            ->where(['Reserves.Seq =' => $id]);
         
         $tasks_json = json_encode($reserves);
 

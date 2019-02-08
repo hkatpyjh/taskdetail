@@ -15,6 +15,7 @@
     <table cellpadding="0" cellspacing="0">
         <thead>
             <tr>
+                <th scope="col"><?= $this->Paginator->sort('id') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('Seq') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('Serial') ?></th>
                 <th scope="col" class="actions"><?= __('Actions') ?></th>
@@ -23,12 +24,13 @@
         <tbody>
             <?php foreach ($reserves as $reserve): ?>
             <tr>
+                <td><?= $this->Number->format($reserve->id) ?></td>
                 <td><?= h($reserve->Seq) ?></td>
                 <td><?= h($reserve->Serial) ?></td>
                 <td class="actions">
-                    <?= $this->Html->link(__('View'), ['action' => 'view', $reserve->Seq]) ?>
-                    <?= $this->Html->link(__('Edit'), ['action' => 'edit', $reserve->Seq]) ?>
-                    <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $reserve->Seq], ['confirm' => __('Are you sure you want to delete # {0}?', $reserve->Seq)]) ?>
+                    <?= $this->Html->link(__('View'), ['action' => 'view', $reserve->id]) ?>
+                    <?= $this->Html->link(__('Edit'), ['action' => 'edit', $reserve->id]) ?>
+                    <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $reserve->id], ['confirm' => __('Are you sure you want to delete # {0}?', $reserve->id)]) ?>
                 </td>
             </tr>
             <?php endforeach; ?>

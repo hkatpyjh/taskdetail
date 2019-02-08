@@ -31,8 +31,8 @@ class ReservesTable extends Table
         parent::initialize($config);
 
         $this->setTable('reserves');
-        $this->setDisplayField('Seq');
-        $this->setPrimaryKey('Seq');
+        $this->setDisplayField('id');
+        $this->setPrimaryKey('id');
     }
 
     /**
@@ -44,8 +44,12 @@ class ReservesTable extends Table
     public function validationDefault(Validator $validator)
     {
         $validator
+            ->integer('id')
+            ->allowEmpty('id', 'create');
+
+        $validator
             ->scalar('Seq')
-            ->allowEmpty('Seq', 'create');
+            ->allowEmpty('Seq');
 
         $validator
             ->scalar('Serial')
