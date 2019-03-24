@@ -91,7 +91,7 @@ class ReservesController extends AppController
     
     public function pull()
     {
-        $id = $this->request->query('id');
+        $id = $this->request->getQuery('id');
         $reserves = $this->Reserves->find('all')
             ->where(['Reserves.Seq =' => $id]);
         
