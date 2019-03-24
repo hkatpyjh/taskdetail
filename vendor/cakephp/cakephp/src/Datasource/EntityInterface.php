@@ -29,6 +29,7 @@ use JsonSerializable;
  * @method array getVirtual()
  * @method $this setDirty($property, $isDirty)
  * @method bool isDirty($property = null)
+ * @method bool hasErrors($includeNested = true)
  * @method array getErrors()
  * @method array getError($field)
  * @method array setErrors(array $fields, $overwrite = false)
@@ -36,7 +37,7 @@ use JsonSerializable;
  * @method $this setAccess($property, $set)
  * @method bool isAccessible($property)
  * @method $this setSource($source)
- * @method array getSource()
+ * @method string getSource()
  * @method array extractOriginal(array $properties)
  * @method array extractOriginalChanged(array $properties)
  *

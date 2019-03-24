@@ -27,7 +27,6 @@ if (is_file(__DIR__.'/../autoload.php') === true) {
 
 $tokens = new \PHP_CodeSniffer\Util\Tokens();
 
-
 // Compatibility for PHPUnit < 6 and PHPUnit 6+.
 if (class_exists('PHPUnit_Framework_TestSuite') === true && class_exists('PHPUnit\Framework\TestSuite') === false) {
     class_alias('PHPUnit_Framework_TestSuite', 'PHPUnit'.'\Framework\TestSuite');
@@ -44,3 +43,26 @@ if (class_exists('PHPUnit_TextUI_TestRunner') === true && class_exists('PHPUnit\
 if (class_exists('PHPUnit_Framework_TestResult') === true && class_exists('PHPUnit\Framework\TestResult') === false) {
     class_alias('PHPUnit_Framework_TestResult', 'PHPUnit'.'\Framework\TestResult');
 }
+
+
+/**
+ * A global util function to help print unit test fixing data.
+ *
+ * @return void
+ */
+function printPHPCodeSnifferTestOutput()
+{
+    $codeCount = count($GLOBALS['PHP_CODESNIFFER_SNIFF_CODES']);
+    $files     = call_user_func_array('array_merge', $GLOBALS['PHP_CODESNIFFER_SNIFF_CASE_FILES']);
+    $files     = array_unique($files);
+    $fileCount = count($files);
+
+    echo PHP_EOL.PHP_EOL;
+    echo "$fileCount sniff test files generated $codeCount unique error codes";
+    if ($codeCount > 0) {
+        $fixes   = count($GLOBALS['PHP_CODESNIFFER_FIXABLE_CODES']);
+        $percent = round(($fixes / $codeCount * 100), 2);
+        echo "; $fixes were fixable ($percent%)";
+    }
+
+}//end printPHPCodeSnifferTestOutput()

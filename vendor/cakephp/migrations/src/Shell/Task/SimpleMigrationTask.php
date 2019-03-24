@@ -15,7 +15,7 @@ namespace Migrations\Shell\Task;
 
 use Bake\Shell\Task\SimpleBakeTask;
 use Cake\Console\ConsoleOptionParser;
-use Cake\Core\Plugin;
+use Cake\Core\Plugin as CorePlugin;
 use Cake\Utility\Inflector;
 use Phinx\Util\Util;
 
@@ -45,6 +45,7 @@ abstract class SimpleMigrationTask extends SimpleBakeTask
     public function fileName($name)
     {
         $name = $this->getMigrationName($name);
+
         return Util::getCurrentTimestamp() . '_' . Inflector::camelize($name) . '.php';
     }
 
@@ -57,6 +58,7 @@ abstract class SimpleMigrationTask extends SimpleBakeTask
         if (isset($this->plugin)) {
             $path = $this->_pluginPath($this->plugin) . $this->pathFragment;
         }
+
         return str_replace('/', DS, $path);
     }
 
@@ -89,6 +91,7 @@ abstract class SimpleMigrationTask extends SimpleBakeTask
         }
 
         $this->params['no-test'] = true;
+
         return parent::bake($name);
     }
 
@@ -127,14 +130,14 @@ abstract class SimpleMigrationTask extends SimpleBakeTask
         $parser = new ConsoleOptionParser($name);
 
         $bakeThemes = [];
-        foreach (Plugin::loaded() as $plugin) {
-            $path = Plugin::classPath($plugin);
+        foreach (CorePlugin::loaded() as $plugin) {
+            $path = CorePlugin::classPath($plugin);
             if (is_dir($path . 'Template' . DS . 'Bake')) {
                 $bakeThemes[] = $plugin;
             }
         }
 
-        $parser->description(
+        $parser->setDescription(
             'Bake migration class.'
         )
         ->addOption('plugin', [

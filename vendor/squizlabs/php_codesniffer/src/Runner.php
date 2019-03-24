@@ -74,7 +74,7 @@ class Runner
             if ($this->config->explain === true) {
                 $standards = $this->config->standards;
                 foreach ($standards as $standard) {
-                    $this->config->standards = array($standard);
+                    $this->config->standards = [$standard];
                     $ruleset = new Ruleset($this->config);
                     $ruleset->explain();
                 }
@@ -86,7 +86,7 @@ class Runner
             if ($this->config->generator !== null) {
                 $standards = $this->config->standards;
                 foreach ($standards as $standard) {
-                    $this->config->standards = array($standard);
+                    $this->config->standards = [$standard];
                     $ruleset   = new Ruleset($this->config);
                     $class     = 'PHP_CodeSniffer\Generators\\'.$this->config->generator;
                     $generator = new $class($ruleset);
@@ -100,7 +100,7 @@ class Runner
             // so we hard-code the full report here and when outputting.
             // We also ensure parallel processing is off because we need to do one file at a time.
             if ($this->config->interactive === true) {
-                $this->config->reports      = array('full' => null);
+                $this->config->reports      = ['full' => null];
                 $this->config->parallel     = 1;
                 $this->config->showProgress = false;
             }
@@ -175,6 +175,13 @@ class Runner
             // Init the run and load the rulesets to set additional config vars.
             $this->init();
 
+            // When processing STDIN, we only process one file at a time and
+            // we don't process all the way through, so we can't use the parallel
+            // running system.
+            if ($this->config->stdin === true) {
+                $this->config->parallel = 1;
+            }
+
             // Override some of the command line settings that might break the fixes.
             $this->config->generator    = null;
             $this->config->explain      = false;
@@ -183,14 +190,14 @@ class Runner
             $this->config->showSources  = false;
             $this->config->recordErrors = false;
             $this->config->reportFile   = null;
-            $this->config->reports      = array('cbf' => null);
+            $this->config->reports      = ['cbf' => null];
 
             // If a standard tries to set command line arguments itself, some
             // may be blocked because PHPCBF is running, so stop the script
             // dying if any are found.
             $this->config->dieOnUnknownArg = false;
 
-            $numErrors = $this->run();
+            $this->run();
             $this->reporter->printReports();
 
             echo PHP_EOL;
@@ -361,7 +368,7 @@ class Runner
         }//end if
 
         // Turn all sniff errors into exceptions.
-        set_error_handler(array($this, 'handleErrors'));
+        set_error_handler([$this, 'handleErrors']);
 
         // If verbosity is too high, turn off parallelism so the
         // debug output is clean.
@@ -401,7 +408,7 @@ class Runner
             }
         } else {
             // Batching and forking.
-            $childProcs  = array();
+            $childProcs  = [];
             $numPerBatch = ceil($numFiles / $this->config->parallel);
 
             for ($batch = 0; $batch < $this->config->parallel; $batch++) {
@@ -420,10 +427,10 @@ class Runner
                 if ($pid === -1) {
                     throw new RuntimeException('Failed to create child process');
                 } else if ($pid !== 0) {
-                    $childProcs[] = array(
-                                     'pid' => $pid,
-                                     'out' => $childOutFilename,
-                                    );
+                    $childProcs[] = [
+                        'pid' => $pid,
+                        'out' => $childOutFilename,
+                    ];
                 } else {
                     // Move forward to the start of the batch.
                     $todo->rewind();
@@ -440,7 +447,7 @@ class Runner
                     $this->reporter->totalFixed    = 0;
 
                     // Process the files.
-                    $pathsProcessed = array();
+                    $pathsProcessed = [];
                     ob_start();
                     for ($i = $startAt; $i < $endAt; $i++) {
                         $path = $todo->key();
@@ -470,13 +477,13 @@ class Runner
 
                     // Write information about the run to the filesystem
                     // so it can be picked up by the main process.
-                    $childOutput = array(
-                                    'totalFiles'    => $this->reporter->totalFiles,
-                                    'totalErrors'   => $this->reporter->totalErrors,
-                                    'totalWarnings' => $this->reporter->totalWarnings,
-                                    'totalFixable'  => $this->reporter->totalFixable,
-                                    'totalFixed'    => $this->reporter->totalFixed,
-                                   );
+                    $childOutput = [
+                        'totalFiles'    => $this->reporter->totalFiles,
+                        'totalErrors'   => $this->reporter->totalErrors,
+                        'totalWarnings' => $this->reporter->totalWarnings,
+                        'totalFixable'  => $this->reporter->totalFixable,
+                        'totalFixed'    => $this->reporter->totalFixed,
+                    ];
 
                     $output  = '<'.'?php'."\n".' $childOutput = ';
                     $output .= var_export($childOutput, true);
@@ -484,7 +491,7 @@ class Runner
                     $output .= var_export($debugOutput, true);
 
                     if ($this->config->cache === true) {
-                        $childCache = array();
+                        $childCache = [];
                         foreach ($pathsProcessed as $path) {
                             $childCache[$path] = Cache::get($path);
                         }
@@ -554,6 +561,11 @@ class Runner
      */
     public function handleErrors($code, $message, $file, $line)
     {
+        if ((error_reporting() & $code) === 0) {
+            // This type of error is being muted.
+            return true;
+        }
+
         throw new RuntimeException("$message in $file on line $line");
 
     }//end handleErrors()
@@ -721,7 +733,7 @@ class Runner
      *
      * @return void
      */
-    function printProgress($file, $numFiles, $numProcessed)
+    public function printProgress($file, $numFiles, $numProcessed)
     {
         if (PHP_CODESNIFFER_VERBOSITY > 0
             || $this->config->showProgress === false

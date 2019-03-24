@@ -15,7 +15,7 @@
 namespace Cake\I18n;
 
 use Cake\Chronos\ChronosInterface;
-use DatetimeInterface;
+use DateTimeInterface;
 
 /**
  * Helper class for formatting relative dates & times.
@@ -91,7 +91,7 @@ class RelativeTimeFormatter
      * @return string Relative time string.
      * @see \Cake\I18n\Time::timeAgoInWords()
      */
-    public function timeAgoInWords(DatetimeInterface $time, array $options = [])
+    public function timeAgoInWords(DateTimeInterface $time, array $options = [])
     {
         $options = $this->_options($options, FrozenTime::class);
         if ($options['timezone'] && $time instanceof ChronosInterface) {
@@ -180,15 +180,15 @@ class RelativeTimeFormatter
     /**
      * Calculate the data needed to format a relative difference string.
      *
-     * @param \DateTime $futureTime The time from the future.
-     * @param \DateTime $pastTime The time from the past.
+     * @param int|string $futureTime The timestamp from the future.
+     * @param int|string $pastTime The timestamp from the past.
      * @param bool $backwards Whether or not the difference was backwards.
      * @param array $options An array of options.
      * @return array An array of values.
      */
     protected function _diffData($futureTime, $pastTime, $backwards, $options)
     {
-        $diff = $futureTime - $pastTime;
+        $diff = (int)$futureTime - (int)$pastTime;
 
         // If more than a week, then take into account the length of months
         if ($diff >= 604800) {
@@ -197,27 +197,27 @@ class RelativeTimeFormatter
             list($past['H'], $past['i'], $past['s'], $past['d'], $past['m'], $past['Y']) = explode('/', date('H/i/s/d/m/Y', $pastTime));
             $weeks = $days = $hours = $minutes = $seconds = 0;
 
-            $years = $future['Y'] - $past['Y'];
-            $months = $future['m'] + ((12 * $years) - $past['m']);
+            $years = (int)$future['Y'] - (int)$past['Y'];
+            $months = (int)$future['m'] + ((12 * $years) - (int)$past['m']);
 
             if ($months >= 12) {
                 $years = floor($months / 12);
                 $months -= ($years * 12);
             }
-            if ($future['m'] < $past['m'] && $future['Y'] - $past['Y'] === 1) {
+            if ((int)$future['m'] < (int)$past['m'] && (int)$future['Y'] - (int)$past['Y'] === 1) {
                 $years--;
             }
 
-            if ($future['d'] >= $past['d']) {
-                $days = $future['d'] - $past['d'];
+            if ((int)$future['d'] >= (int)$past['d']) {
+                $days = (int)$future['d'] - (int)$past['d'];
             } else {
-                $daysInPastMonth = date('t', $pastTime);
-                $daysInFutureMonth = date('t', mktime(0, 0, 0, $future['m'] - 1, 1, $future['Y']));
+                $daysInPastMonth = (int)date('t', $pastTime);
+                $daysInFutureMonth = (int)date('t', mktime(0, 0, 0, (int)$future['m'] - 1, 1, (int)$future['Y']));
 
                 if (!$backwards) {
-                    $days = ($daysInPastMonth - $past['d']) + $future['d'];
+                    $days = ($daysInPastMonth - (int)$past['d']) + (int)$future['d'];
                 } else {
-                    $days = ($daysInFutureMonth - $past['d']) + $future['d'];
+                    $days = ($daysInFutureMonth - (int)$past['d']) + (int)$future['d'];
                 }
 
                 if ($future['m'] != $past['m']) {
@@ -276,12 +276,12 @@ class RelativeTimeFormatter
     /**
      * Format a into a relative date string.
      *
-     * @param \DatetimeInterface $date The date to format.
+     * @param \DateTimeInterface $date The date to format.
      * @param array $options Array of options.
      * @return string Relative date string.
      * @see \Cake\I18n\Date::timeAgoInWords()
      */
-    public function dateAgoInWords(DatetimeInterface $date, array $options = [])
+    public function dateAgoInWords(DateTimeInterface $date, array $options = [])
     {
         $options = $this->_options($options, FrozenDate::class);
         if ($options['timezone'] && $date instanceof ChronosInterface) {

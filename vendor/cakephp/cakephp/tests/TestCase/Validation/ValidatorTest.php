@@ -15,6 +15,8 @@
 namespace Cake\Test\TestCase\Validation;
 
 use Cake\TestSuite\TestCase;
+use Cake\Validation\Validation;
+use Cake\Validation\ValidationRule;
 use Cake\Validation\ValidationSet;
 use Cake\Validation\Validator;
 
@@ -23,6 +25,53 @@ use Cake\Validation\Validator;
  */
 class ValidatorTest extends TestCase
 {
+
+    /**
+     * tests getRequiredMessage
+     *
+     * @return void
+     */
+    public function testGetRequiredMessage()
+    {
+        $validator = new Validator();
+        $this->assertNull($validator->getRequiredMessage('field'));
+
+        $validator = new Validator();
+        $validator->requirePresence('field');
+        $this->assertSame('This field is required', $validator->getRequiredMessage('field'));
+
+        $validator = new Validator();
+        $validator->requirePresence('field', true, 'Custom message');
+        $this->assertSame('Custom message', $validator->getRequiredMessage('field'));
+    }
+
+    /**
+     * tests getNotEmptyMessage
+     *
+     * @return void
+     */
+    public function testGetNotEmptyMessage()
+    {
+        $validator = new Validator();
+        $this->assertNull($validator->getNotEmptyMessage('field'));
+
+        $validator = new Validator();
+        $validator->requirePresence('field');
+        $this->assertSame('This field cannot be left empty', $validator->getNotEmptyMessage('field'));
+
+        $validator = new Validator();
+        $validator->notEmpty('field', 'Custom message');
+        $this->assertSame('Custom message', $validator->getNotEmptyMessage('field'));
+
+        $validator = new Validator();
+        $validator->notBlank('field', 'Cannot be blank');
+        $this->assertSame('Cannot be blank', $validator->getNotEmptyMessage('field'));
+
+        $validator = new Validator();
+        $validator->notEmpty('field', 'Cannot be empty');
+        $validator->notBlank('field', 'Cannot be blank');
+        $this->assertSame('Cannot be blank', $validator->getNotEmptyMessage('field'));
+    }
 
     /**
      * Testing you can dynamically add rules to a field
@@ -43,6 +92,15 @@ class ValidatorTest extends TestCase
         $validator->add('body', 'another', ['rule' => 'crazy']);
         $this->assertCount(1, $validator->field('body'));
         $this->assertCount(2, $validator);
+
+        $validator->add('email', 'notBlank');
+        $result = $validator->field('email')->rule('notBlank')->get('rule');
+        $this->assertEquals('notBlank', $result);
+
+        $rule = new ValidationRule();
+        $validator->add('field', 'myrule', $rule);
+        $result = $validator->field('field')->rule('myrule');
+        $this->assertSame($rule, $result);
     }
 
     /**
@@ -68,7 +126,7 @@ class ValidatorTest extends TestCase
     public function testAddNestedSingleProviders()
     {
         $validator = new Validator();
-        $validator->provider('test', $this);
+        $validator->setProvider('test', $this);
 
         $inner = new Validator();
         $inner->add('username', 'not-blank', ['rule' => function () use ($inner, $validator) {
@@ -80,6 +138,36 @@ class ValidatorTest extends TestCase
 
         $result = $validator->errors(['user' => ['username' => 'example']]);
         $this->assertNotEmpty($result, 'Validation should fail');
+    }
+
+    /**
+     * Testing addNested with extra `$message` and `$when` params
+     *
+     * @return void
+     */
+    public function testAddNestedWithExtra()
+    {
+        $inner = new Validator();
+        $inner->requirePresence('username');
+
+        $validator = new Validator();
+        $validator->addNested('user', $inner, 'errors found', 'create');
+
+        $this->assertCount(1, $validator->field('user'));
+
+        $rule = $validator->field('user')->rule(Validator::NESTED);
+        $this->assertSame('create', $rule->get('on'));
+
+        $errors = $validator->errors(['user' => 'string']);
+        $this->assertArrayHasKey('user', $errors);
+        $this->assertArrayHasKey(Validator::NESTED, $errors['user']);
+        $this->assertSame('errors found', $errors['user'][Validator::NESTED]);
+
+        $errors = $validator->errors(['user' => ['key' => 'value']]);
+        $this->assertArrayHasKey('user', $errors);
+        $this->assertArrayHasKey(Validator::NESTED, $errors['user']);
+
+        $this->assertEmpty($validator->errors(['user' => ['key' => 'value']], false));
     }
 
     /**
@@ -105,7 +193,7 @@ class ValidatorTest extends TestCase
     public function testAddNestedManyProviders()
     {
         $validator = new Validator();
-        $validator->provider('test', $this);
+        $validator->setProvider('test', $this);
 
         $inner = new Validator();
         $inner->add('comment', 'not-blank', ['rule' => function () use ($inner, $validator) {
@@ -117,6 +205,41 @@ class ValidatorTest extends TestCase
 
         $result = $validator->errors(['comments' => [['comment' => 'example']]]);
         $this->assertNotEmpty($result, 'Validation should fail');
+    }
+
+    /**
+     * Testing addNestedMany with extra `$message` and `$when` params
+     *
+     * @return void
+     */
+    public function testAddNestedManyWithExtra()
+    {
+        $inner = new Validator();
+        $inner->requirePresence('body');
+
+        $validator = new Validator();
+        $validator->addNestedMany('comments', $inner, 'errors found', 'create');
+
+        $this->assertCount(1, $validator->field('comments'));
+
+        $rule = $validator->field('comments')->rule(Validator::NESTED);
+        $this->assertSame('create', $rule->get('on'));
+
+        $errors = $validator->errors(['comments' => 'string']);
+        $this->assertArrayHasKey('comments', $errors);
+        $this->assertArrayHasKey(Validator::NESTED, $errors['comments']);
+        $this->assertSame('errors found', $errors['comments'][Validator::NESTED]);
+
+        $errors = $validator->errors(['comments' => ['string']]);
+        $this->assertArrayHasKey('comments', $errors);
+        $this->assertArrayHasKey(Validator::NESTED, $errors['comments']);
+        $this->assertSame('errors found', $errors['comments'][Validator::NESTED]);
+
+        $errors = $validator->errors(['comments' => [['body' => null]]]);
+        $this->assertArrayHasKey('comments', $errors);
+        $this->assertArrayHasKey(Validator::NESTED, $errors['comments']);
+
+        $this->assertEmpty($validator->errors(['comments' => [['body' => null]]], false));
     }
 
     /**
@@ -498,7 +621,7 @@ class ValidatorTest extends TestCase
      *
      * @return void
      */
-    public function testAllowEmptyDateTime()
+    public function testAllowEmptyWithDateTimeFields()
     {
         $validator = new Validator();
         $validator->allowEmpty('created')
@@ -544,7 +667,7 @@ class ValidatorTest extends TestCase
      *
      * @return void
      */
-    public function testAllowEmptyFileFields()
+    public function testAllowEmptyWithFileFields()
     {
         $validator = new Validator();
         $validator->allowEmpty('picture')
@@ -628,6 +751,350 @@ class ValidatorTest extends TestCase
         $this->expectException(\InvalidArgumentException::class);
         $validator = new Validator();
         $validator->allowEmpty(['title' => 'derp', 'created' => false]);
+    }
+
+    /**
+     * Tests the allowEmptyString method
+     *
+     * @return void
+     */
+    public function testAllowEmptyString()
+    {
+        $validator = new Validator();
+        $validator->allowEmptyString('title')
+            ->scalar('title');
+
+        $this->assertTrue($validator->isEmptyAllowed('title', true));
+        $this->assertTrue($validator->isEmptyAllowed('title', false));
+
+        $data = [
+            'title' => '',
+        ];
+        $this->assertEmpty($validator->errors($data));
+
+        $data = [
+            'title' => null,
+        ];
+        $this->assertEmpty($validator->errors($data));
+
+        $data = [
+            'title' => [],
+        ];
+        $this->assertNotEmpty($validator->errors($data));
+
+        $validator = new Validator();
+        $validator->allowEmptyString('title', 'update', 'message');
+        $this->assertFalse($validator->isEmptyAllowed('title', true));
+        $this->assertTrue($validator->isEmptyAllowed('title', false));
+
+        $data = [
+            'title' => null,
+        ];
+        $expected = [
+            'title' => ['_empty' => 'message'],
+        ];
+        $this->assertSame($expected, $validator->errors($data, true));
+        $this->assertEmpty($validator->errors($data, false));
+    }
+
+    /**
+     * Tests the allowEmptyArray method
+     *
+     * @return void
+     */
+    public function testAllowEmptyArray()
+    {
+        $validator = new Validator();
+        $validator->allowEmptyArray('items')
+            ->hasAtMost('items', 3);
+
+        $this->assertTrue($validator->field('items')->isEmptyAllowed());
+
+        $data = [
+            'items' => '',
+        ];
+        $result = $validator->errors($data);
+        $this->assertEmpty($result);
+
+        $data = [
+            'items' => null,
+        ];
+        $result = $validator->errors($data);
+        $this->assertEmpty($result);
+
+        $data = [
+            'items' => [],
+        ];
+        $result = $validator->errors($data);
+        $this->assertEmpty($result);
+
+        $data = [
+            'items' => [1, 2, 3, 4, 5],
+        ];
+        $expected = [
+            'items' => [
+                'hasAtMost' => 'The provided value is invalid',
+            ],
+        ];
+        $result = $validator->errors($data);
+        $this->assertSame($expected, $result);
+
+        $validator = new Validator();
+        $validator->allowEmptyArray('items', 'update', 'message');
+        $this->assertFalse($validator->isEmptyAllowed('items', true));
+        $this->assertTrue($validator->isEmptyAllowed('items', false));
+
+        $data = [
+            'items' => null,
+        ];
+        $expected = [
+            'items' => ['_empty' => 'message'],
+        ];
+        $this->assertSame($expected, $validator->errors($data, true));
+        $this->assertEmpty($validator->errors($data, false));
+    }
+
+    /**
+     * Tests the allowEmptyFile method
+     *
+     * @return void
+     */
+    public function testAllowEmptyFile()
+    {
+        $validator = new Validator();
+        $validator->allowEmptyFile('photo')
+            ->uploadedFile('photo', []);
+
+        $this->assertTrue($validator->field('photo')->isEmptyAllowed());
+
+        $data = [
+            'photo' => [
+                'name' => '',
+                'type' => '',
+                'tmp_name' => '',
+                'error' => UPLOAD_ERR_NO_FILE,
+            ]
+        ];
+        $result = $validator->errors($data);
+        $this->assertEmpty($result);
+
+        $data = [
+            'photo' => null,
+        ];
+        $result = $validator->errors($data);
+        $this->assertEmpty($result);
+
+        $data = [
+            'photo' => [
+                'name' => '',
+                'type' => '',
+                'tmp_name' => '',
+                'error' => UPLOAD_ERR_FORM_SIZE,
+            ]
+        ];
+        $expected = [
+            'photo' => [
+                'uploadedFile' => 'The provided value is invalid'
+            ]
+        ];
+        $result = $validator->errors($data);
+        $this->assertSame($expected, $result);
+
+        $data = [
+            'photo' => '',
+        ];
+        $expected = [
+            'photo' => [
+                'uploadedFile' => 'The provided value is invalid'
+            ]
+        ];
+        $result = $validator->errors($data);
+        $this->assertSame($expected, $result);
+
+        $data = ['photo' => []];
+        $result = $validator->errors($data);
+        $this->assertSame($expected, $result);
+
+        $validator = new Validator();
+        $validator->allowEmptyArray('photo', 'update', 'message');
+        $this->assertFalse($validator->isEmptyAllowed('photo', true));
+        $this->assertTrue($validator->isEmptyAllowed('photo', false));
+
+        $data = [
+            'photo' => null,
+        ];
+        $expected = [
+            'photo' => ['_empty' => 'message'],
+        ];
+        $this->assertSame($expected, $validator->errors($data, true));
+        $this->assertEmpty($validator->errors($data, false));
+    }
+
+    /**
+     * Tests the allowEmptyDate method
+     *
+     * @return void
+     */
+    public function testAllowEmptyDate()
+    {
+        $validator = new Validator();
+        $validator->allowEmptyDate('date')
+            ->date('date');
+
+        $this->assertTrue($validator->field('date')->isEmptyAllowed());
+
+        $data = [
+            'date' => [
+                'year' => '',
+                'month' => '',
+                'day' => ''
+            ],
+        ];
+        $result = $validator->errors($data);
+        $this->assertEmpty($result);
+
+        $data = [
+            'date' => '',
+        ];
+        $result = $validator->errors($data);
+        $this->assertEmpty($result);
+
+        $data = [
+            'date' => null,
+        ];
+        $result = $validator->errors($data);
+        $this->assertEmpty($result);
+
+        $data = ['date' => []];
+        $result = $validator->errors($data);
+        $this->assertEmpty($result);
+
+        $validator = new Validator();
+        $validator->allowEmptyArray('date', 'update', 'message');
+        $this->assertFalse($validator->isEmptyAllowed('date', true));
+        $this->assertTrue($validator->isEmptyAllowed('date', false));
+
+        $data = [
+            'date' => null,
+        ];
+        $expected = [
+            'date' => ['_empty' => 'message'],
+        ];
+        $this->assertSame($expected, $validator->errors($data, true));
+        $this->assertEmpty($validator->errors($data, false));
+    }
+
+    /**
+     * Tests the allowEmptyTime method
+     *
+     * @return void
+     */
+    public function testAllowEmptyTime()
+    {
+        $validator = new Validator();
+        $validator->allowEmptyTime('time')
+            ->time('time');
+
+        $this->assertTrue($validator->field('time')->isEmptyAllowed());
+
+        $data = [
+            'time' => [
+                'hour' => '',
+                'minute' => '',
+                'second' => '',
+            ],
+        ];
+        $result = $validator->errors($data);
+        $this->assertEmpty($result);
+
+        $data = [
+            'time' => '',
+        ];
+        $result = $validator->errors($data);
+        $this->assertEmpty($result);
+
+        $data = [
+            'time' => null,
+        ];
+        $result = $validator->errors($data);
+        $this->assertEmpty($result);
+
+        $data = ['time' => []];
+        $result = $validator->errors($data);
+        $this->assertEmpty($result);
+
+        $validator = new Validator();
+        $validator->allowEmptyArray('time', 'update', 'message');
+        $this->assertFalse($validator->isEmptyAllowed('time', true));
+        $this->assertTrue($validator->isEmptyAllowed('time', false));
+
+        $data = [
+            'time' => null,
+        ];
+        $expected = [
+            'time' => ['_empty' => 'message'],
+        ];
+        $this->assertSame($expected, $validator->errors($data, true));
+        $this->assertEmpty($validator->errors($data, false));
+    }
+
+    /**
+     * Tests the allowEmptyDate method
+     *
+     * @return void
+     */
+    public function testAllowEmptyDateTime()
+    {
+        $validator = new Validator();
+        $validator->allowEmptyDate('published')
+            ->dateTime('published');
+
+        $this->assertTrue($validator->field('published')->isEmptyAllowed());
+
+        $data = [
+            'published' => [
+                'year' => '',
+                'month' => '',
+                'day' => '',
+                'hour' => '',
+                'minute' => '',
+                'second' => '',
+            ],
+        ];
+        $result = $validator->errors($data);
+        $this->assertEmpty($result);
+
+        $data = [
+            'published' => '',
+        ];
+        $result = $validator->errors($data);
+        $this->assertEmpty($result);
+
+        $data = [
+            'published' => null,
+        ];
+        $result = $validator->errors($data);
+        $this->assertEmpty($result);
+
+        $data = [
+            'published' => [],
+        ];
+        $result = $validator->errors($data);
+        $this->assertEmpty($result);
+
+        $validator = new Validator();
+        $validator->allowEmptyArray('published', 'update', 'message');
+        $this->assertFalse($validator->isEmptyAllowed('published', true));
+        $this->assertTrue($validator->isEmptyAllowed('published', false));
+
+        $data = [
+            'published' => null,
+        ];
+        $expected = [
+            'published' => ['_empty' => 'message'],
+        ];
+        $this->assertSame($expected, $validator->errors($data, true));
+        $this->assertEmpty($validator->errors($data, false));
     }
 
     /**
@@ -926,15 +1393,15 @@ class ValidatorTest extends TestCase
     {
         $validator = new Validator();
         $object = new \stdClass;
-        $this->assertSame($validator, $validator->provider('foo', $object));
-        $this->assertSame($object, $validator->provider('foo'));
-        $this->assertNull($validator->provider('bar'));
+        $this->assertSame($validator, $validator->setProvider('foo', $object));
+        $this->assertSame($object, $validator->getProvider('foo'));
+        $this->assertNull($validator->getProvider('bar'));
 
         $another = new \stdClass;
-        $this->assertSame($validator, $validator->provider('bar', $another));
-        $this->assertSame($another, $validator->provider('bar'));
+        $this->assertSame($validator, $validator->setProvider('bar', $another));
+        $this->assertSame($another, $validator->getProvider('bar'));
 
-        $this->assertEquals(new \Cake\Validation\RulesProvider, $validator->provider('default'));
+        $this->assertEquals(new \Cake\Validation\RulesProvider, $validator->getProvider('default'));
     }
 
     /**
@@ -997,7 +1464,7 @@ class ValidatorTest extends TestCase
                 return "That ain't cool, yo";
             }));
 
-        $validator->provider('thing', $thing);
+        $validator->setProvider('thing', $thing);
         $errors = $validator->errors(['email' => '!', 'title' => 'bar']);
         $expected = [
             'email' => ['alpha' => 'The provided value is invalid'],
@@ -1044,7 +1511,7 @@ class ValidatorTest extends TestCase
 
                 return "That ain't cool, yo";
             }));
-        $validator->provider('thing', $thing);
+        $validator->setProvider('thing', $thing);
         $errors = $validator->errors(['email' => '!', 'title' => 'bar']);
         $expected = [
             'title' => ['cool' => "That ain't cool, yo"]
@@ -1118,9 +1585,9 @@ class ValidatorTest extends TestCase
         $validator
             ->add('email', 'alpha', ['rule' => 'alphanumeric'])
             ->add('title', 'cool', ['rule' => 'isCool', 'provider' => 'thing']);
-        $this->assertTrue(isset($validator['email']));
-        $this->assertTrue(isset($validator['title']));
-        $this->assertFalse(isset($validator['foo']));
+        $this->assertArrayHasKey('email', $validator);
+        $this->assertArrayHasKey('title', $validator);
+        $this->assertArrayNotHasKey('foo', $validator);
     }
 
     /**
@@ -1151,9 +1618,9 @@ class ValidatorTest extends TestCase
         $validator
             ->add('email', 'alpha', ['rule' => 'alphanumeric'])
             ->add('title', 'cool', ['rule' => 'isCool', 'provider' => 'thing']);
-        $this->assertTrue(isset($validator['title']));
+        $this->assertArrayHasKey('title', $validator);
         unset($validator['title']);
-        $this->assertFalse(isset($validator['title']));
+        $this->assertArrayNotHasKey('title', $validator);
     }
 
     /**
@@ -1220,8 +1687,8 @@ class ValidatorTest extends TestCase
     public function testDebugInfo()
     {
         $validator = new Validator();
-        $validator->provider('test', $this);
-        $validator->add('title', 'not-empty', ['rule' => 'notEmpty']);
+        $validator->setProvider('test', $this);
+        $validator->add('title', 'not-empty', ['rule' => 'notBlank']);
         $validator->requirePresence('body');
         $validator->allowEmpty('published');
 
@@ -1247,6 +1714,7 @@ class ValidatorTest extends TestCase
             ],
             '_presenceMessages' => [],
             '_allowEmptyMessages' => [],
+            '_allowEmptyFlags' => [],
             '_useI18n' => true,
         ];
         $this->assertEquals($expected, $result);
@@ -1340,7 +1808,7 @@ class ValidatorTest extends TestCase
     public function testCreditCard()
     {
         $validator = new Validator();
-        $this->assertProxyMethod($validator, 'creditCard', 'all', ['all', true], 'cc');
+        $this->assertProxyMethod($validator, 'creditCard', 'all', ['all', true], 'creditCard');
         $this->assertNotEmpty($validator->errors(['username' => 'foo']));
     }
 
@@ -1352,7 +1820,7 @@ class ValidatorTest extends TestCase
     public function testGreaterThan()
     {
         $validator = new Validator();
-        $this->assertProxyMethod($validator, 'greaterThan', 5, ['>', 5], 'comparison');
+        $this->assertProxyMethod($validator, 'greaterThan', 5, [Validation::COMPARE_GREATER, 5], 'comparison');
         $this->assertNotEmpty($validator->errors(['username' => 2]));
     }
 
@@ -1364,7 +1832,7 @@ class ValidatorTest extends TestCase
     public function testGreaterThanOrEqual()
     {
         $validator = new Validator();
-        $this->assertProxyMethod($validator, 'greaterThanOrEqual', 5, ['>=', 5], 'comparison');
+        $this->assertProxyMethod($validator, 'greaterThanOrEqual', 5, [Validation::COMPARE_GREATER_OR_EQUAL, 5], 'comparison');
         $this->assertNotEmpty($validator->errors(['username' => 2]));
     }
 
@@ -1376,7 +1844,7 @@ class ValidatorTest extends TestCase
     public function testLessThan()
     {
         $validator = new Validator();
-        $this->assertProxyMethod($validator, 'lessThan', 5, ['<', 5], 'comparison');
+        $this->assertProxyMethod($validator, 'lessThan', 5, [Validation::COMPARE_LESS, 5], 'comparison');
         $this->assertNotEmpty($validator->errors(['username' => 5]));
     }
 
@@ -1388,7 +1856,7 @@ class ValidatorTest extends TestCase
     public function testLessThanOrEqual()
     {
         $validator = new Validator();
-        $this->assertProxyMethod($validator, 'lessThanOrEqual', 5, ['<=', 5], 'comparison');
+        $this->assertProxyMethod($validator, 'lessThanOrEqual', 5, [Validation::COMPARE_LESS_OR_EQUAL, 5], 'comparison');
         $this->assertNotEmpty($validator->errors(['username' => 6]));
     }
 
@@ -1400,7 +1868,7 @@ class ValidatorTest extends TestCase
     public function testEquals()
     {
         $validator = new Validator();
-        $this->assertProxyMethod($validator, 'equals', 5, ['==', 5], 'comparison');
+        $this->assertProxyMethod($validator, 'equals', 5, [Validation::COMPARE_EQUAL, 5], 'comparison');
         $this->assertEmpty($validator->errors(['username' => 5]));
         $this->assertNotEmpty($validator->errors(['username' => 6]));
     }
@@ -1413,7 +1881,7 @@ class ValidatorTest extends TestCase
     public function testNotEquals()
     {
         $validator = new Validator();
-        $this->assertProxyMethod($validator, 'notEquals', 5, ['!=', 5], 'comparison');
+        $this->assertProxyMethod($validator, 'notEquals', 5, [Validation::COMPARE_NOT_EQUAL, 5], 'comparison');
         $this->assertNotEmpty($validator->errors(['username' => 5]));
     }
 
@@ -1425,8 +1893,96 @@ class ValidatorTest extends TestCase
     public function testSameAs()
     {
         $validator = new Validator();
-        $this->assertProxyMethod($validator, 'sameAs', 'other', ['other'], 'compareWith');
+        $this->assertProxyMethod($validator, 'sameAs', 'other', ['other', Validation::COMPARE_SAME], 'compareFields');
         $this->assertNotEmpty($validator->errors(['username' => 'foo']));
+        $this->assertNotEmpty($validator->errors(['username' => 1, 'other' => '1']));
+    }
+
+    /**
+     * Tests the notSameAs proxy method
+     *
+     * @return void
+     */
+    public function testNotSameAs()
+    {
+        $validator = new Validator();
+        $this->assertProxyMethod($validator, 'notSameAs', 'other', ['other', Validation::COMPARE_NOT_SAME], 'compareFields');
+        $this->assertNotEmpty($validator->errors(['username' => 'foo', 'other' => 'foo']));
+    }
+
+    /**
+     * Tests the equalToField proxy method
+     *
+     * @return void
+     */
+    public function testEqualToField()
+    {
+        $validator = new Validator();
+        $this->assertProxyMethod($validator, 'equalToField', 'other', ['other', Validation::COMPARE_EQUAL], 'compareFields');
+        $this->assertNotEmpty($validator->errors(['username' => 'foo']));
+        $this->assertNotEmpty($validator->errors(['username' => 'foo', 'other' => 'bar']));
+    }
+
+    /**
+     * Tests the notEqualToField proxy method
+     *
+     * @return void
+     */
+    public function testNotEqualToField()
+    {
+        $validator = new Validator();
+        $this->assertProxyMethod($validator, 'notEqualToField', 'other', ['other', Validation::COMPARE_NOT_EQUAL], 'compareFields');
+        $this->assertNotEmpty($validator->errors(['username' => 'foo', 'other' => 'foo']));
+    }
+
+    /**
+     * Tests the greaterThanField proxy method
+     *
+     * @return void
+     */
+    public function testGreaterThanField()
+    {
+        $validator = new Validator();
+        $this->assertProxyMethod($validator, 'greaterThanField', 'other', ['other', Validation::COMPARE_GREATER], 'compareFields');
+        $this->assertNotEmpty($validator->errors(['username' => 1, 'other' => 1]));
+        $this->assertNotEmpty($validator->errors(['username' => 1, 'other' => 2]));
+    }
+
+    /**
+     * Tests the greaterThanOrEqualToField proxy method
+     *
+     * @return void
+     */
+    public function testGreaterThanOrEqualToField()
+    {
+        $validator = new Validator();
+        $this->assertProxyMethod($validator, 'greaterThanOrEqualToField', 'other', ['other', Validation::COMPARE_GREATER_OR_EQUAL], 'compareFields');
+        $this->assertNotEmpty($validator->errors(['username' => 1, 'other' => 2]));
+    }
+
+    /**
+     * Tests the lessThanField proxy method
+     *
+     * @return void
+     */
+    public function testLessThanField()
+    {
+        $validator = new Validator();
+        $this->assertProxyMethod($validator, 'lessThanField', 'other', ['other', Validation::COMPARE_LESS], 'compareFields');
+        $this->assertNotEmpty($validator->errors(['username' => 1, 'other' => 1]));
+        $this->assertNotEmpty($validator->errors(['username' => 2, 'other' => 1]));
+    }
+
+    /**
+     * Tests the lessThanOrEqualToField proxy method
+     *
+     * @return void
+     */
+    public function testLessThanOrEqualToField()
+    {
+        $validator = new Validator();
+        $this->assertProxyMethod($validator, 'lessThanOrEqualToField', 'other', ['other', Validation::COMPARE_LESS_OR_EQUAL], 'compareFields');
+        $this->assertNotEmpty($validator->errors(['username' => 2, 'other' => 1]));
     }
 
     /**

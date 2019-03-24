@@ -31,6 +31,8 @@ use Cake\Utility\Inflector;
  * models, and templates. Going further, Bake can also write Unit Tests for you.
  *
  * @link https://book.cakephp.org/3.0/en/bake/usage.html
+ *
+ * @property \Bake\Shell\Task\ModelTask $Model
  */
 class BakeShell extends Shell
 {
@@ -54,6 +56,10 @@ class BakeShell extends Shell
         parent::startup();
         Configure::write('debug', true);
         Cache::disable();
+        // Loading WyriHaximus/TwigView Plugin through the Plugin::load() for backward compatibility.
+        if (!Plugin::isLoaded('WyriHaximus/TwigView')) {
+            Plugin::load('WyriHaximus/TwigView', ['bootstrap' => true]);
+        }
 
         $task = $this->_camelize($this->command);
 
@@ -67,6 +73,13 @@ class BakeShell extends Shell
         }
         if (isset($this->params['connection'])) {
             $this->connection = $this->params['connection'];
+        }
+
+        if ($this->params['quiet']) {
+            $this->interactive = false;
+            if (isset($this->{$task}) && !in_array($task, ['Project'])) {
+                $this->{$task}->interactive = false;
+            }
         }
     }
 
@@ -226,6 +239,12 @@ class BakeShell extends Shell
      */
     public function all($name = null)
     {
+        if ($this->param('connection') && $this->param('everything') &&
+            $this->param('connection') !== 'default') {
+            $this->warn('Can only bake everything on default connection');
+
+            return false;
+        }
         $this->out('Bake All');
         $this->hr();
 
@@ -256,6 +275,7 @@ class BakeShell extends Shell
             $filteredTables->each(function ($tableName) use ($task) {
                 $tableName = $this->_camelize($tableName);
                 $this->{$task}->connection = $this->connection;
+                $this->{$task}->interactive = $this->interactive;
                 $this->{$task}->main($tableName);
             });
         }
@@ -283,7 +303,7 @@ class BakeShell extends Shell
             'help' => 'Bake a complete MVC skeleton.',
         ])->addOption('everything', [
             'help' => 'Bake a complete MVC skeleton, using all the available tables. ' .
-            'Usage: "bake all --everything"',
+                'Usage: "bake all --everything"',
             'default' => false,
             'boolean' => true,
         ])->addOption('prefix', [
@@ -297,6 +317,7 @@ class BakeShell extends Shell
 
         foreach ($this->_taskMap as $task => $config) {
             $taskParser = $this->{$task}->getOptionParser();
+            $this->{$task}->interactive = $this->interactive;
             $parser->addSubcommand(Inflector::underscore($task), [
                 'help' => $taskParser->getDescription(),
                 'parser' => $taskParser

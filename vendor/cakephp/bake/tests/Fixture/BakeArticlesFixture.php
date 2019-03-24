@@ -30,9 +30,11 @@ class BakeArticlesFixture extends TestFixture
     public $fields = [
         'id' => ['type' => 'integer'],
         'bake_user_id' => ['type' => 'integer', 'null' => false],
-        'title' => ['type' => 'string', 'null' => false],
+        'title' => ['type' => 'string', 'length' => 50, 'null' => false],
         'body' => 'text',
-        'published' => ['type' => 'boolean', 'length' => 1, 'default' => false],
+        'rating' => ['type' => 'float', 'unsigned' => true, 'default' => 0.0, 'null' => false],
+        'score' => ['type' => 'decimal', 'unsigned' => true, 'default' => 0.0, 'null' => false],
+        'published' => ['type' => 'boolean', 'length' => 1, 'default' => false, 'null' => false],
         'created' => 'datetime',
         'updated' => 'datetime',
         '_constraints' => ['primary' => ['type' => 'primary', 'columns' => ['id']]]

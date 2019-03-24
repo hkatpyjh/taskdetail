@@ -14,6 +14,7 @@ namespace Cake\ORM\Exception;
 
 use Cake\Core\Exception\Exception;
 use Cake\Datasource\EntityInterface;
+use Cake\Utility\Hash;
 
 /**
  * Used when a strict save or delete fails
@@ -45,6 +46,16 @@ class PersistenceFailedException extends Exception
     public function __construct(EntityInterface $entity, $message, $code = null, $previous = null)
     {
         $this->_entity = $entity;
+        if (is_array($message)) {
+            $errors = [];
+            foreach (Hash::flatten($entity->getErrors()) as $field => $error) {
+                $errors[] = $field . ': "' . $error . '"';
+            }
+            if ($errors) {
+                $message[] = implode(', ', $errors);
+                $this->_messageTemplate = 'Entity %s failure. Found the following errors (%s).';
+            }
+        }
         parent::__construct($message, $code, $previous);
     }
 

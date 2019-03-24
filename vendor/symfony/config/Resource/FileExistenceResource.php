@@ -28,9 +28,9 @@ class FileExistenceResource implements SelfCheckingResourceInterface, \Serializa
     /**
      * @param string $resource The file path to the resource
      */
-    public function __construct($resource)
+    public function __construct(string $resource)
     {
-        $this->resource = (string) $resource;
+        $this->resource = $resource;
         $this->exists = file_exists($resource);
     }
 
@@ -59,15 +59,15 @@ class FileExistenceResource implements SelfCheckingResourceInterface, \Serializa
     }
 
     /**
-     * {@inheritdoc}
+     * @internal
      */
     public function serialize()
     {
-        return serialize(array($this->resource, $this->exists));
+        return serialize([$this->resource, $this->exists]);
     }
 
     /**
-     * {@inheritdoc}
+     * @internal
      */
     public function unserialize($serialized)
     {

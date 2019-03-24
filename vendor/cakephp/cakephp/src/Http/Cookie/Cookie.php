@@ -16,7 +16,7 @@ namespace Cake\Http\Cookie;
 use Cake\Chronos\Chronos;
 use Cake\Utility\Hash;
 use DateTimeImmutable;
-use DateTimezone;
+use DateTimeZone;
 use InvalidArgumentException;
 
 /**
@@ -81,7 +81,7 @@ class Cookie implements CookieInterface
      *
      * @var string
      */
-    protected $path = '';
+    protected $path = '/';
 
     /**
      * Domain
@@ -124,7 +124,7 @@ class Cookie implements CookieInterface
         $name,
         $value = '',
         $expiresAt = null,
-        $path = '',
+        $path = '/',
         $domain = '',
         $secure = false,
         $httpOnly = false
@@ -146,7 +146,7 @@ class Cookie implements CookieInterface
         $this->validateBool($secure);
         $this->secure = $secure;
         if ($expiresAt) {
-            $expiresAt = $expiresAt->setTimezone(new DateTimezone('GMT'));
+            $expiresAt = $expiresAt->setTimezone(new DateTimeZone('GMT'));
         }
         $this->expiresAt = $expiresAt;
     }
@@ -200,9 +200,7 @@ class Cookie implements CookieInterface
      */
     public function getId()
     {
-        $name = mb_strtolower($this->name);
-
-        return "{$name};{$this->domain};{$this->path}";
+        return "{$this->name};{$this->domain};{$this->path}";
     }
 
     /**
@@ -397,7 +395,7 @@ class Cookie implements CookieInterface
     public function withExpiry($dateTime)
     {
         $new = clone $this;
-        $new->expiresAt = $dateTime->setTimezone(new DateTimezone('GMT'));
+        $new->expiresAt = $dateTime->setTimezone(new DateTimeZone('GMT'));
 
         return $new;
     }
@@ -439,7 +437,7 @@ class Cookie implements CookieInterface
      */
     public function isExpired($time = null)
     {
-        $time = $time ?: new DateTimeImmutable('now', new DateTimezone('UTC'));
+        $time = $time ?: new DateTimeImmutable('now', new DateTimeZone('UTC'));
         if (!$this->expiresAt) {
             return false;
         }

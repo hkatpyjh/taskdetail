@@ -11,18 +11,22 @@
 
 namespace Symfony\Component\Config\Resource;
 
+use Symfony\Component\DependencyInjection\ServiceSubscriberInterface as LegacyServiceSubscriberInterface;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Contracts\Service\ServiceSubscriberInterface;
+
 /**
  * @author Nicolas Grekas <p@tchwork.com>
  */
 class ReflectionClassResource implements SelfCheckingResourceInterface, \Serializable
 {
-    private $files = array();
+    private $files = [];
     private $className;
     private $classReflector;
-    private $excludedVendors = array();
+    private $excludedVendors = [];
     private $hash;
 
-    public function __construct(\ReflectionClass $classReflector, $excludedVendors = array())
+    public function __construct(\ReflectionClass $classReflector, array $excludedVendors = [])
     {
         $this->className = $classReflector->name;
         $this->classReflector = $classReflector;
@@ -37,11 +41,11 @@ class ReflectionClassResource implements SelfCheckingResourceInterface, \Seriali
         }
 
         foreach ($this->files as $file => $v) {
-            if (!file_exists($file)) {
+            if (false === $filemtime = @filemtime($file)) {
                 return false;
             }
 
-            if (@filemtime($file) > $timestamp) {
+            if ($filemtime > $timestamp) {
                 return $this->hash === $this->computeHash();
             }
         }
@@ -54,6 +58,9 @@ class ReflectionClassResource implements SelfCheckingResourceInterface, \Seriali
         return 'reflection.'.$this->className;
     }
 
+    /**
+     * @internal
+     */
     public function serialize()
     {
         if (null === $this->hash) {
@@ -61,9 +68,12 @@ class ReflectionClassResource implements SelfCheckingResourceInterface, \Seriali
             $this->loadFiles($this->classReflector);
         }
 
-        return serialize(array($this->files, $this->className, $this->hash));
+        return serialize([$this->files, $this->className, $this->hash]);
     }
 
+    /**
+     * @internal
+     */
     public function unserialize($serialized)
     {
         list($this->files, $this->className, $this->hash) = unserialize($serialized);
@@ -78,7 +88,7 @@ class ReflectionClassResource implements SelfCheckingResourceInterface, \Seriali
             $file = $class->getFileName();
             if (false !== $file && file_exists($file)) {
                 foreach ($this->excludedVendors as $vendor) {
-                    if (0 === strpos($file, $vendor) && false !== strpbrk(substr($file, strlen($vendor), 1), '/'.DIRECTORY_SEPARATOR)) {
+                    if (0 === strpos($file, $vendor) && false !== strpbrk(substr($file, \strlen($vendor), 1), '/'.\DIRECTORY_SEPARATOR)) {
                         $file = false;
                         break;
                     }
@@ -114,7 +124,9 @@ class ReflectionClassResource implements SelfCheckingResourceInterface, \Seriali
 
     private function generateSignature(\ReflectionClass $class)
     {
-        yield $class->getDocComment().$class->getModifiers();
+        yield $class->getDocComment();
+        yield (int) $class->isFinal();
+        yield (int) $class->isAbstract();
 
         if ($class->isTrait()) {
             yield print_r(class_uses($class->name), true);
@@ -133,49 +145,31 @@ class ReflectionClassResource implements SelfCheckingResourceInterface, \Seriali
             }
         }
 
-        if (defined('HHVM_VERSION')) {
-            foreach ($class->getMethods(\ReflectionMethod::IS_PUBLIC | \ReflectionMethod::IS_PROTECTED) as $m) {
-                // workaround HHVM bug with variadics, see https://github.com/facebook/hhvm/issues/5762
-                yield preg_replace('/^  @@.*/m', '', new ReflectionMethodHhvmWrapper($m->class, $m->name));
+        foreach ($class->getMethods(\ReflectionMethod::IS_PUBLIC | \ReflectionMethod::IS_PROTECTED) as $m) {
+            yield preg_replace('/^  @@.*/m', '', $m);
+
+            $defaults = [];
+            foreach ($m->getParameters() as $p) {
+                $defaults[$p->name] = $p->isDefaultValueAvailable() ? $p->getDefaultValue() : null;
             }
-        } else {
-            foreach ($class->getMethods(\ReflectionMethod::IS_PUBLIC | \ReflectionMethod::IS_PROTECTED) as $m) {
-                yield preg_replace('/^  @@.*/m', '', $m);
-
-                $defaults = array();
-                foreach ($m->getParameters() as $p) {
-                    $defaults[$p->name] = $p->isDefaultValueAvailable() ? $p->getDefaultValue() : null;
-                }
-                yield print_r($defaults, true);
-            }
-        }
-    }
-}
-
-/**
- * @internal
- */
-class ReflectionMethodHhvmWrapper extends \ReflectionMethod
-{
-    public function getParameters()
-    {
-        $params = array();
-
-        foreach (parent::getParameters() as $i => $p) {
-            $params[] = new ReflectionParameterHhvmWrapper(array($this->class, $this->name), $i);
+            yield print_r($defaults, true);
         }
 
-        return $params;
-    }
-}
+        if ($class->isAbstract() || $class->isInterface() || $class->isTrait()) {
+            return;
+        }
 
-/**
- * @internal
- */
-class ReflectionParameterHhvmWrapper extends \ReflectionParameter
-{
-    public function getDefaultValue()
-    {
-        return array($this->isVariadic(), $this->isDefaultValueAvailable() ? parent::getDefaultValue() : null);
+        if (interface_exists(EventSubscriberInterface::class, false) && $class->isSubclassOf(EventSubscriberInterface::class)) {
+            yield EventSubscriberInterface::class;
+            yield print_r($class->name::getSubscribedEvents(), true);
+        }
+
+        if (interface_exists(LegacyServiceSubscriberInterface::class, false) && $class->isSubclassOf(LegacyServiceSubscriberInterface::class)) {
+            yield LegacyServiceSubscriberInterface::class;
+            yield print_r([$class->name, 'getSubscribedServices'](), true);
+        } elseif (interface_exists(ServiceSubscriberInterface::class, false) && $class->isSubclassOf(ServiceSubscriberInterface::class)) {
+            yield ServiceSubscriberInterface::class;
+            yield print_r($class->name::getSubscribedServices(), true);
+        }
     }
 }

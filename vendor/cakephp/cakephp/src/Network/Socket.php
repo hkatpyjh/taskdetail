@@ -24,12 +24,9 @@ use InvalidArgumentException;
  * CakePHP network socket connection class.
  *
  * Core base class for network communication.
- *
- * @mixin \Cake\Core\InstanceConfigTrait
  */
 class Socket
 {
-
     use InstanceConfigTrait;
 
     /**
@@ -327,8 +324,11 @@ class Socket
     /**
      * Write data to the socket.
      *
+     * The bool false return value is deprecated and will be int 0 in the next major.
+     * Please code respectively to be future proof.
+     *
      * @param string $data The data to write to the socket.
-     * @return int Bytes written.
+     * @return int|false Bytes written.
      */
     public function write($data)
     {
@@ -351,6 +351,9 @@ class Socket
     /**
      * Read data from the socket. Returns false if no data is available or no connection could be
      * established.
+     *
+     * The bool false return value is deprecated and will be null in the next major.
+     * Please code respectively to be future proof.
      *
      * @param int $length Optional buffer length to read; defaults to 1024
      * @return mixed Socket data
@@ -467,7 +470,7 @@ class Socket
             $enableCryptoResult = stream_socket_enable_crypto($this->connection, $enable, $method);
         } catch (Exception $e) {
             $this->setLastError(null, $e->getMessage());
-            throw new SocketException($e->getMessage());
+            throw new SocketException($e->getMessage(), null, $e);
         }
         if ($enableCryptoResult === true) {
             $this->encrypted = $enable;
