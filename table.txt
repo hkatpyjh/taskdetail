@@ -21,7 +21,7 @@ CREATE TABLE reserves (
     PRIMARY KEY (id)
 );
 
-CREATE TABLE reserveDetail (
+CREATE TABLE reservedetail (
     Machine VARCHAR(100) DEFAULT '' PRIMARY KEY,
     ReserveKey VARCHAR(100),
     ReserveType VARCHAR(100),
