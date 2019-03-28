@@ -14,10 +14,6 @@
     <h3><?= h($reservedetail->Machine) ?></h3>
     <table class="vertical-table">
         <tr>
-            <th scope="row"><?= __('Machine') ?></th>
-            <td><?= h($reservedetail->Machine) ?></td>
-        </tr>
-        <tr>
             <th scope="row"><?= __('ReserveKey') ?></th>
             <td><?= h($reservedetail->ReserveKey) ?></td>
         </tr>

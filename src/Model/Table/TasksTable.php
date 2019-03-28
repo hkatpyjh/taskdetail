@@ -43,31 +43,44 @@ use Cake\Validation\Validator;
     public function validationDefault(Validator $validator)
     {
         $validator
-            ->scalar('TargetYearMonthDay')            ->notEmpty('TargetYearMonthDay');
+            ->scalar('TargetYearMonthDay')
+            ->notEmpty('TargetYearMonthDay');
         $validator
-            ->scalar('TargetYearMonth')            ->allowEmpty('TargetYearMonth');
+            ->scalar('TargetYearMonth')
+            ->allowEmpty('TargetYearMonth');
         $validator
-            ->scalar('Day')            ->allowEmpty('Day');
+            ->scalar('Day')
+            ->allowEmpty('Day');
         $validator
-            ->scalar('StartTime')            ->allowEmpty('StartTime');
+            ->scalar('StartTime')
+            ->allowEmpty('StartTime');
         $validator
-            ->scalar('EndTime')            ->allowEmpty('EndTime');
+            ->scalar('EndTime')
+            ->allowEmpty('EndTime');
         $validator
-            ->scalar('WorkTime')            ->allowEmpty('WorkTime');
+            ->scalar('WorkTime')
+            ->allowEmpty('WorkTime');
         $validator
-            ->scalar('WorkTimeCompany')            ->allowEmpty('WorkTimeCompany');
+            ->scalar('WorkTimeCompany')
+            ->allowEmpty('WorkTimeCompany');
         $validator
-            ->scalar('StartLocation')            ->allowEmpty('StartLocation');
+            ->scalar('StartLocation')
+            ->allowEmpty('StartLocation');
         $validator
-            ->scalar('EndLocation')            ->allowEmpty('EndLocation');
+            ->scalar('EndLocation')
+            ->allowEmpty('EndLocation');
         $validator
-            ->boolean('StartOn')            ->allowEmpty('StartOn');
+            ->boolean('StartOn')
+            ->allowEmpty('StartOn');
         $validator
-            ->boolean('EndOn')            ->allowEmpty('EndOn');
+            ->boolean('EndOn')
+            ->allowEmpty('EndOn');
         $validator
-            ->boolean('NeedApplication')            ->allowEmpty('NeedApplication');
+            ->boolean('NeedApplication')
+            ->allowEmpty('NeedApplication');
         $validator
-            ->boolean('HaveTask')            ->allowEmpty('HaveTask');
+            ->boolean('HaveTask')
+            ->allowEmpty('HaveTask');
         return $validator;
     }
 }

@@ -14,7 +14,6 @@
     <table cellpadding="0" cellspacing="0">
         <thead>
             <tr>
-                <th scope="col" width="30%"><?= $this->Paginator->sort('Machine') ?></th>
                 <th scope="col" width="20%"><?= $this->Paginator->sort('ReserveKey') ?></th>
                 <th scope="col" width="30%"><?= $this->Paginator->sort('ReserveType') ?></th>
                 <th scope="col" width="10%"><?= $this->Paginator->sort('Amount') ?></th>
@@ -24,12 +23,11 @@
         <tbody>
             <?php foreach ($reservedetail as $reservedetail): ?>
             <tr>
-                <td><?= h($reservedetail->Machine) ?></td>
                 <td><?= h($reservedetail->ReserveKey) ?></td>
                 <td><?= h($reservedetail->ReserveType) ?></td>
                 <td><?= h($reservedetail->Amount) ?></td>
                 <td class="actions">
-                    <?= $this->Html->link(__('View'), ['action' => 'view', $reservedetail->Machine]) ?>
+                    <?= $this->Html->link(__('View'), ['action' => 'view', $reservedetail->ReserveKey]) ?>
                 </td>
             </tr>
             <?php endforeach; ?>

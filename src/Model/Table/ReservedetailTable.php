@@ -32,8 +32,8 @@ class ReservedetailTable extends Table
         parent::initialize($config);
 
         $this->setTable('reservedetail');
-        $this->setDisplayField('Machine');
-        $this->setPrimaryKey('Machine');
+        $this->setDisplayField('ReserveKey');
+        $this->setPrimaryKey('ReserveKey');
     }
 
     /**
@@ -45,14 +45,9 @@ class ReservedetailTable extends Table
     public function validationDefault(Validator $validator)
     {
         $validator
-            ->scalar('Machine')
-            ->maxLength('Machine', 50)
-            ->allowEmptyString('Machine', 'create');
-
-        $validator
             ->scalar('ReserveKey')
             ->maxLength('ReserveKey', 50)
-            ->allowEmptyString('ReserveKey');
+            ->notEmpty('ReserveKey');
 
         $validator
             ->scalar('ReserveType')

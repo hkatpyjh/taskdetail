@@ -44,21 +44,15 @@ class ReservedetailController extends AppController
 
     public function sync()
     {
-        $details = $this->paginate($this->Reservedetail);
-        
-        $details_json = json_decode(json_encode($details), Reservedetail::class);
-
         $json = json_decode($this->stripQutos(stripslashes($this->request->getData('json'))), Reservedetail::class);
-        
-        $results = Hash::merge($details_json, $json);
-        
+
         $response = $this->response->withStringBody('Success');
 
-        foreach($results as $result)
+        foreach($json as $result)
         {
-            if($this->Reservedetail->exists(['Machine'=>$result['Machine']]))
+            if($this->Reservedetail->exists(['ReserveKey'=>$result['ReserveKey']]))
             {
-                 $reserveDetail = $this->Reservedetail->get($result['Machine'], [
+                 $reserveDetail = $this->Reservedetail->get($result['ReserveKey'], [
                     'contain' => []
                  ]);
 

@@ -24,7 +24,6 @@ class Reservedetail extends Entity
      * @var array
      */
     protected $_accessible = [
-        'Machine' => true,
         'ReserveKey' => true,
         'ReserveType' => true,
         'Amount' => true

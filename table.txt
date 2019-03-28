@@ -22,8 +22,7 @@ CREATE TABLE reserves (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE reservedetail (
-    Machine VARCHAR(100) DEFAULT '' PRIMARY KEY,
-    ReserveKey VARCHAR(100),
+    ReserveKey VARCHAR(100) DEFAULT '' PRIMARY KEY,
     ReserveType VARCHAR(100),
     Amount VARCHAR(20)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
