@@ -12,19 +12,19 @@ CREATE TABLE tasks (
     EndOn BOOLEAN,
     NeedApplication BOOLEAN,
     HaveTask BOOLEAN
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE reserves (
     id MEDIUMINT NOT NULL AUTO_INCREMENT,
     Seq VARCHAR(20),
     Serial VARCHAR(20),
     PRIMARY KEY (id)
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE reservedetail (
     Machine VARCHAR(100) DEFAULT '' PRIMARY KEY,
     ReserveKey VARCHAR(100),
     ReserveType VARCHAR(100),
     Amount VARCHAR(20)
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

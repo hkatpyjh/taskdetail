@@ -4,7 +4,7 @@
  * @var \App\Model\Entity\Task[]|\Cake\Collection\CollectionInterface $tasks */
 ?>
 <div class="tasks index large-12 medium-10 columns content">
-    <h3><?= __('Tasks') ?></h3>
+<!--    <h3><?= __('Tasks') ?></h3>-->
     <table cellpadding="0" cellspacing="0">
         <thead>
             <tr>

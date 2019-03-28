@@ -4,21 +4,21 @@
  * @var \App\Model\Entity\Reservedetail[]|\Cake\Collection\CollectionInterface $reservedetail
  */
 ?>
-<nav class="large-3 medium-4 columns" id="actions-sidebar">
+<!--<nav class="large-3 medium-4 columns" id="actions-sidebar">
     <ul class="side-nav">
         <li class="heading"><?= __('Actions') ?></li>
     </ul>
-</nav>
-<div class="reservedetail index large-9 medium-8 columns content">
-    <h3><?= __('Reservedetail') ?></h3>
+</nav>-->
+<div class="reservedetail index large-16 medium-12 columns content">
+<!--    <h3><?= __('Reservedetail') ?></h3>-->
     <table cellpadding="0" cellspacing="0">
         <thead>
             <tr>
-                <th scope="col"><?= $this->Paginator->sort('Machine') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('ReserveKey') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('ReserveType') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('Amount') ?></th>
-                <th scope="col" class="actions"><?= __('Actions') ?></th>
+                <th scope="col" width="30%"><?= $this->Paginator->sort('Machine') ?></th>
+                <th scope="col" width="20%"><?= $this->Paginator->sort('ReserveKey') ?></th>
+                <th scope="col" width="30%"><?= $this->Paginator->sort('ReserveType') ?></th>
+                <th scope="col" width="10%"><?= $this->Paginator->sort('Amount') ?></th>
+                <th scope="col" width="10%" class="actions"><?= __('Actions') ?></th>
             </tr>
         </thead>
         <tbody>
