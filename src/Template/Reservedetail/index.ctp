@@ -14,10 +14,10 @@
     <table cellpadding="0" cellspacing="0">
         <thead>
             <tr>
-                <th scope="col" width="20%"><?= $this->Paginator->sort('ReserveKey') ?></th>
-                <th scope="col" width="30%"><?= $this->Paginator->sort('ReserveType') ?></th>
-                <th scope="col" width="10%"><?= $this->Paginator->sort('Amount') ?></th>
-                <th scope="col" width="10%" class="actions"><?= __('Actions') ?></th>
+                <th scope="col" width="35%"><?= $this->Paginator->sort('ReserveKey') ?></th>
+                <th scope="col" width="35%"><?= $this->Paginator->sort('ReserveType') ?></th>
+                <th scope="col" width="15%"><?= $this->Paginator->sort('Amount') ?></th>
+                <th scope="col" width="15%" class="actions"><?= __('Actions') ?></th>
             </tr>
         </thead>
         <tbody>
