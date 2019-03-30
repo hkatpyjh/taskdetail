@@ -44,7 +44,7 @@ class ReservedetailController extends AppController
 
     public function sync()
     {
-        $json = json_decode($this->stripQutos(stripslashes($this->request->getData('json'))), Reservedetail::class);
+        $json = json_decode($this->stripQutos(stripslashes(implode("",$this->request->getData()))), Reservedetail::class);
 
         $response = $this->response->withStringBody('Success');
 
