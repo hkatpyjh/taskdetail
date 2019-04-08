@@ -64,12 +64,12 @@ class AggregatedetailsTable extends Table
     }
 
 	public function aggregateAmount(){
-	    $sql  = "DELETE FROM AGGREGATEDETAILS;";
-		$sql .= "INSERT INTO AGGREGATEDETAILS";
-        $sql .= "(SELECT A.RESERVEKEY, A.RESERVETYPE, SUM(A.AMOUNT) AMOUNT FROM (";
-    	$sql .= " SELECT SUBSTRING(RESERVEKEY, 1, 8) RESERVEKEY, SUBSTRING_INDEX(RESERVEKEY, '-', -1) ";
-    	$sql .= " RESERVETYPE, AMOUNT FROM RESERVEDETAIL) A";
-    	$sql .= " GROUP BY A.RESERVEKEY, A.RESERVETYPE);";
+	    $sql  = "DELETE FROM aggregatedetails;";
+		$sql .= "INSERT INTO aggregatedetails";
+        $sql .= "(SELECT A.ReserveKey, A.ReserveType, SUM(A.AMOUNT) AMOUNT FROM (";
+    	$sql .= " SELECT SUBSTRING(ReserveKey, 1, 8) ReserveKey, SUBSTRING_INDEX(ReserveKey, '-', -1) ";
+    	$sql .= " ReserveType, Amount FROM reservedetail) A";
+    	$sql .= " GROUP BY A.ReserveKey, A.ReserveType);";
 
 		$connection = ConnectionManager::get('default');
         $connection->execute($sql);

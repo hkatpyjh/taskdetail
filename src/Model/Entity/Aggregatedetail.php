@@ -23,6 +23,7 @@ class Aggregatedetail extends Entity
      * @var array
      */
     protected $_accessible = [
+	'ReserveKey' => true,
         'ReserveType' => true,
         'Amount' => true
     ];
