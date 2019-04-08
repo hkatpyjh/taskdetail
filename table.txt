@@ -27,3 +27,8 @@ CREATE TABLE reservedetail (
     Amount VARCHAR(20)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+CREATE TABLE aggregatedetails (
+    ReserveKey VARCHAR(100),
+    ReserveType VARCHAR(100),
+    Amount VARCHAR(20)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
