@@ -12055,3 +12055,34 @@ Cake\Http\Server::run() - ROOTvendor\cakephp\cakephp\src\Http\Server.php, line 9
 
 
 
+2019-04-09 13:32:28 Notice: Deprecated (16384): Plugin::load() is deprecated. Use Application::addPlugin() instead. This method will be removed in 4.0.0. - Z:\config\bootstrap.php, line: 205
+ You can disable deprecation warnings by setting `Error.errorLevel` to `E_ALL & ~E_USER_DEPRECATED` in your config/app.php. in [Z:\vendor\cakephp\cakephp\src\Core\functions.php, line 311]
+Trace:
+Cake\Error\BaseErrorHandler::handleError() - ROOTvendor\cakephp\cakephp\src\Error\BaseErrorHandler.php, line 159
+deprecationWarning - ROOTvendor\cakephp\cakephp\src\Core\functions.php, line 311
+Cake\Core\Plugin::load() - ROOTvendor\cakephp\cakephp\src\Core\Plugin.php, line 118
+require_once - ROOTconfig\bootstrap.php, line 205
+Cake\Http\BaseApplication::bootstrap() - ROOTvendor\cakephp\cakephp\src\Http\BaseApplication.php, line 152
+App\Application::bootstrap() - ROOTsrc\Application.php, line 38
+Cake\Http\Server::bootstrap() - ROOTvendor\cakephp\cakephp\src\Http\Server.php, line 121
+Cake\Http\Server::run() - ROOTvendor\cakephp\cakephp\src\Http\Server.php, line 82
+[main] - ROOTwebroot\index.php, line 40
+
+
+
+2019-04-09 13:32:28 Notice: Deprecated (16384): Plugin::bootstrap() is deprecated. This method will be removed in 4.0.0. - Z:\vendor\cakephp\cakephp\src\Core\Plugin.php, line: 173
+ You can disable deprecation warnings by setting `Error.errorLevel` to `E_ALL & ~E_USER_DEPRECATED` in your config/app.php. in [Z:\vendor\cakephp\cakephp\src\Core\functions.php, line 311]
+Trace:
+Cake\Error\BaseErrorHandler::handleError() - ROOTvendor\cakephp\cakephp\src\Error\BaseErrorHandler.php, line 159
+deprecationWarning - ROOTvendor\cakephp\cakephp\src\Core\functions.php, line 311
+Cake\Core\Plugin::bootstrap() - ROOTvendor\cakephp\cakephp\src\Core\Plugin.php, line 286
+Cake\Core\Plugin::load() - ROOTvendor\cakephp\cakephp\src\Core\Plugin.php, line 173
+require_once - ROOTconfig\bootstrap.php, line 205
+Cake\Http\BaseApplication::bootstrap() - ROOTvendor\cakephp\cakephp\src\Http\BaseApplication.php, line 152
+App\Application::bootstrap() - ROOTsrc\Application.php, line 38
+Cake\Http\Server::bootstrap() - ROOTvendor\cakephp\cakephp\src\Http\Server.php, line 121
+Cake\Http\Server::run() - ROOTvendor\cakephp\cakephp\src\Http\Server.php, line 82
+[main] - ROOTwebroot\index.php, line 40
+
+
+
